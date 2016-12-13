@@ -5,15 +5,36 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <title>Play/Java DB-Beers Example</title>
-    <meta name="description" content="A sample Play/Java website for db-beers"/>
-    <meta name="keywords" content="play, java, db-beers"/>
+    <title>FinanceDB</title>
+    <meta name="description" content="Financial data aggregator"/>
+    <meta name="keywords" content="play, java, db-finance"/>
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8"/>
-    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/style.css")" type="text/css" media="screen"/>
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/css/bootstrap.min.css")" type="text/css" media="screen"/>
     @script
   </head>
   <body>
-    <h1><img src="@routes.Assets.at("images/beer.jpg")" style="float:right"/>Play/Java DB-Beers Example</h1>
+  	<nav class="navbar navbar-default" role="navigation">
+  		<div class="container">
+  			<div class="navbar-header">
+  				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-container">
+  					<span class="sr-only">Toggle Navigation Bar</span>
+  					<span class="icon-bar"></span>
+  					<span class="icon-bar"></span>
+  					<span class="icon-bar"></span>
+  					<span class="icon-bar"></span>
+  				</button>
+  			</div>
+  			<div class="collapse navbar-collapse" id="navbar-container">
+  				<ul class="nav navbar-nav">
+  					<li class="active"><a href="#">Home</a></li>
+  					<li class="active"><a href="#">Search</a></li>
+  					<li class="active"><a href="#">Company</a></li>
+  					<li class="active"><a href="#">Compare</a></li>
+  				</ul>
+  			</div>
+  		</div>
+  	</nav>
+    <h1><img src="@routes.Assets.at("images/beer.jpg")" style="float:right"/>FinanceDB</h1>
     <hr/>
     <h2 id="heading">@heading</h2>
     <div id="content">@content</div>
