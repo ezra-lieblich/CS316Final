@@ -4,7 +4,13 @@ import java.sql.SQLException;
 import java.util.Map;
 import javax.swing.text.html.HTML;
 import java.util.ArrayList;
+<<<<<<< HEAD
 import java.util.List;
+=======
+import java.util.Arrays;
+import java.util.List;
+
+>>>>>>> master
 import play.*;
 import play.mvc.*;
 import play.data.*;
@@ -31,9 +37,6 @@ public class Application extends Controller {
         return ok(compare.render(companyInfo, Html.apply(Json.toJson(financialData).toString())));
     }
     
-    public static Result viewSearch() {
-        return ok(search.render());
-    }
 
     public static Result viewDrinker(String name) throws SQLException {
         BeerDB.DrinkerInfo drinkerInfo = BeerDB.getDrinkerInfo(name);
@@ -47,7 +50,9 @@ public class Application extends Controller {
     public static Result viewCompany(String key) throws SQLException {
     	CompanyDB.CompanyInfo companyInfo = CompanyDB.getTestDrinker(key);
         return ok(company.render(companyInfo));
-    }
+    }    
+
+   
 
     public static Result editDrinker(String name) throws SQLException {
         BeerDB.DrinkerInfo drinkerInfo = BeerDB.getDrinkerInfo(name);
@@ -59,6 +64,18 @@ public class Application extends Controller {
                                   BeerDB.getAllBarNames()));
         }
     }
+    
+    public static Result interpretQuery() throws SQLException{
+    	
+    	return ok(error.render("Bad Request"));
+    }
+    
+    public static Result viewSearch() throws SQLException {
+        List<String> testList = CompanyDB.getColumnNames();
+        testList.add("hello");
+    	return ok(search.render(testList));
+    }
+
 
     public static Result updateDrinker() throws SQLException {
         Map<String, String> data = Form.form().bindFromRequest().data();
@@ -98,6 +115,7 @@ public class Application extends Controller {
         }
     }
 
+
     public static Result searchCompanies() throws SQLException {
         Map<String, String> data = Form.form().bindFromRequest().data();
         String value = data.get("company");
@@ -107,14 +125,10 @@ public class Application extends Controller {
     public static Result searchTab() throws SQLException {
     	return ok(searchbartab.render("Enter a Company"));
     }
-    
-//    public static Result getGraphData() {
-//        //Map<String, String> data = Form.form().bindFromRequest().data();
-//        return redirect(controllers.routes.Application.viewCompany(value));
-//    }
-    
+
 //    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 //<script type='text/javascript' 
 //src='@routes.Assets.at("javascripts/js/bootstrap.js")'></script>
 //</body>
+
 }
