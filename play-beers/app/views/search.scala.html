@@ -1,36 +1,30 @@
-@(fieldList: String)
+@(fieldList: List[String])
 
 @main("Search") { } {
 	
 	
 	
-	<form>
-	  <table style="width: 800px">
-	    <tr>
-	      <td align="right">Field:</td>
-	      <td align="left"><input type="checkbox" name="field" />Whatever da fuck dis is</td>
-	      <td align="right">Operator:</td>
-	      <td align="left"><input type="text" name="operator" /></td>
-	      <td align="right">Value:</td>
-	      <td align="left"><input type="text" name="value" /></td>
-	      <td align="left"><input type="submit" name="Search" /></td>
-	    </tr>
+	<table style="width: 600px">
+			<tr>
+				<td align="left">Field:</td>
+		      	<td align="left">Operator:</td>
+		     	<td align="left">Value:</td>
+		      	<td align="right"><input type="submit" form="searchform" value="Search" /></td>
+		    </tr>
 	   
-	   @for(x <- 1 to 10){
-	      <tr>
-	      	<td/>
-	      	<td align="left"><input type="checkbox" name="field" />hello</td>
-	      	<td/>
-	     	<td align="left"><input type="text" name="operator" /></td>
-	     	<td/>
-	      	<td align="left"><input type="text" name="value" /></td>
-	      	
-	      </tr>	   
-	   }
-	   
-	   
-	  </table>
-	</form>
+   		<form method='post' action="@routes.Application.interpretQuery() id="searchform">
+   		@for(x <- fieldList){
+   			<fieldset>
+	      	<tr>  	
+	      		<td align="left"><input type="checkbox" name="field" />@x</td>      	
+	     		<td align="left"><input type="text" name="operator" /></td>	     	
+	      		<td align="left"><input type="text" name="value" /></td>	      	
+	      	</tr>	
+	      	</fieldset>   
+	   	}
+	   </form>
+   </table>
+	
 
 
  }
