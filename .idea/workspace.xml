@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="55756b57-32bf-400a-9ed8-e5e47d2c02ee" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/play-beers/app/views/search.scala.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/play-beers/app/views/company.html" afterPath="$PROJECT_DIR$/play-beers/app/views/companies.scala.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.project" afterPath="$PROJECT_DIR$/.project" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/play-beers/app/controllers/Application.java" afterPath="$PROJECT_DIR$/play-beers/app/controllers/Application.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/play-beers/app/views/companies.scala.html" afterPath="$PROJECT_DIR$/play-beers/app/views/companies.scala.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/play-beers/conf/routes" afterPath="$PROJECT_DIR$/play-beers/conf/routes" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/play-beers/app/views/search.scala.html" afterPath="$PROJECT_DIR$/play-beers/app/views/search.scala.html" />
     </list>
     <ignored path="CS316Final.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,11 +27,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="companies.scala.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="companies.scala.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/play-beers/app/views/companies.scala.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.09363296">
-              <caret line="5" column="46" selection-start-line="5" selection-start-column="46" selection-end-line="5" selection-end-column="46" />
+            <state vertical-scroll-proportion="-0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="9" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -41,8 +40,8 @@
       <file leaf-file-name="search.scala.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/play-beers/app/views/search.scala.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state vertical-scroll-proportion="-4.375">
+              <caret line="7" column="3" selection-start-line="7" selection-start-column="3" selection-end-line="7" selection-end-column="3" />
               <folding />
             </state>
           </provider>
@@ -61,18 +60,18 @@
       <file leaf-file-name="edit.scala.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/play-beers/app/views/edit.scala.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.75">
-              <caret line="6" column="17" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
+            <state vertical-scroll-proportion="-1.4705882">
+              <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Application.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Application.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/play-beers/app/controllers/Application.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="32" column="20" selection-start-line="32" selection-start-column="20" selection-end-line="32" selection-end-column="20" />
+            <state vertical-scroll-proportion="0.33333334">
+              <caret line="31" column="36" selection-start-line="31" selection-start-column="25" selection-end-line="31" selection-end-column="36" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -112,7 +111,7 @@
         <entry file="file://$PROJECT_DIR$/play-beers/conf/routes">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="8" column="14" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="14" />
+              <caret line="8" column="73" selection-start-line="8" selection-start-column="60" selection-end-line="8" selection-end-column="73" />
               <folding />
             </state>
           </provider>
@@ -161,9 +160,9 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/play-beers/app/views/index.scala.html" />
-        <option value="$PROJECT_DIR$/play-beers/app/views/companies.scala.html" />
         <option value="$PROJECT_DIR$/play-beers/app/models/CompanyDB.java" />
         <option value="$PROJECT_DIR$/play-beers/app/views/company.html" />
+        <option value="$PROJECT_DIR$/play-beers/app/views/companies.scala.html" />
         <option value="$PROJECT_DIR$/play-beers/conf/routes" />
         <option value="$PROJECT_DIR$/play-beers/app/controllers/Application.java" />
         <option value="$PROJECT_DIR$/play-beers/app/views/search.scala.html" />
@@ -858,12 +857,12 @@
       <updated>1481614000127</updated>
       <workItem from="1481614001700" duration="4966000" />
       <workItem from="1481657567890" duration="10357000" />
-      <workItem from="1481677044563" duration="641000" />
+      <workItem from="1481677044563" duration="2305000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15964000" />
+    <option name="totallyTimeSpent" value="17628000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -1138,6 +1137,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/play-beers/app/models/CompanyDB.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="51" column="42" selection-start-line="51" selection-start-column="42" selection-end-line="51" selection-end-column="42" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/play-beers/app/views/index.scala.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.25">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/play-beers/app/models/BeerDB.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1154,13 +1171,35 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/play-beers/app/models/CompanyDB.java">
+    <entry file="file://$PROJECT_DIR$/play-beers/app/views/error.scala.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.25">
+          <caret line="2" column="2" selection-start-line="2" selection-start-column="2" selection-end-line="2" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/play-beers/conf/routes">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="51" column="42" selection-start-line="51" selection-start-column="42" selection-end-line="51" selection-end-column="42" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <caret line="8" column="73" selection-start-line="8" selection-start-column="60" selection-end-line="8" selection-end-column="73" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/play-beers/app/views/companies.scala.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="9" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/play-beers/app/views/edit.scala.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.4705882">
+          <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1172,61 +1211,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/play-beers/app/views/index.scala.html">
+    <entry file="file://$PROJECT_DIR$/play-beers/app/views/search.scala.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.25">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/play-beers/app/views/error.scala.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.25">
-          <caret line="2" column="2" selection-start-line="2" selection-start-column="2" selection-end-line="2" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/play-beers/app/views/edit.scala.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.75">
-          <caret line="6" column="17" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
+        <state vertical-scroll-proportion="-4.375">
+          <caret line="7" column="3" selection-start-line="7" selection-start-column="3" selection-end-line="7" selection-end-column="3" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/play-beers/app/controllers/Application.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="32" column="20" selection-start-line="32" selection-start-column="20" selection-end-line="32" selection-end-column="20" />
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="31" column="36" selection-start-line="31" selection-start-column="25" selection-end-line="31" selection-end-column="36" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/play-beers/conf/routes">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="14" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/play-beers/app/views/search.scala.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/play-beers/app/views/companies.scala.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.09363296">
-          <caret line="5" column="46" selection-start-line="5" selection-start-column="46" selection-end-line="5" selection-end-column="46" />
-          <folding />
         </state>
       </provider>
     </entry>

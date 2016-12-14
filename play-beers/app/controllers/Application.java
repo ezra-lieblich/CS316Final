@@ -83,4 +83,8 @@ public class Application extends Controller {
         }
     }
 
+    public static Result searchCompanies() throws SQLException {
+        return ok(search.render())
+    }
+
 }

@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title></title>
-</head>
-<body>
 
-</body>
-</html>
+@main(Search For a Company) { } {
+  <p>
+   Please enter the company you would like to look for <br/>
+  @for((key, value) <- companyInfo.companyData) {
+    <li>@key: @value <li/>
+  }
+  </p>
+}
