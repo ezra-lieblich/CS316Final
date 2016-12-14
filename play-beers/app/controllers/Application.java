@@ -18,6 +18,18 @@ public class Application extends Controller {
     public static Result index() throws SQLException {
         return ok(index.render(BeerDB.getAllDrinkerNames()));
     }
+    
+    public static Result viewCompany(String name) {
+        return ok(company.render());
+    }
+    
+    public static Result viewCompare() {
+        return ok(compare.render());
+    }
+    
+    public static Result viewSearch() {
+        return ok(search.render());
+    }
 
     public static Result viewDrinker(String name) throws SQLException {
         BeerDB.DrinkerInfo drinkerInfo = BeerDB.getDrinkerInfo(name);

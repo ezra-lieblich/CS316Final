@@ -7,6 +7,9 @@
 GET     /                           controllers.Application.index()
 GET	/drinker/:name              controllers.Application.viewDrinker(name:String)
 GET     /edit-drinker/:name         controllers.Application.editDrinker(name:String)
+GET /company/:name					controllers.Application.viewCompany(name:String)
+GET /search				controllers.Application.viewSearch()
+GET /compare				controllers.Application.viewCompare()
 POST    /update-drinker             controllers.Application.updateDrinker()
 
 
