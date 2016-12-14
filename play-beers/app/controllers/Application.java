@@ -11,6 +11,7 @@ import play.data.*;
 import views.html.*;
 
 import models.BeerDB;
+import models.CompanyDB;
 
 public class Application extends Controller {
 
@@ -25,6 +26,11 @@ public class Application extends Controller {
         } else{
             return ok(drinker.render(drinkerInfo));
         }
+    }
+
+    public static Result viewCompany(String key) throws SQLException {
+    	CompanyDB.CompanyInfo companyInfo = CompanyDB.getTestDrinker(key);
+        return ok(companies.render(companyInfo));
     }
 
     public static Result editDrinker(String name) throws SQLException {
@@ -66,8 +72,8 @@ public class Application extends Controller {
             }
         }
         boolean success = BeerDB.updateDrinkerInfo
-            (new BeerDB.DrinkerInfo(name, address,
-                                    beersLiked, barsFrequented, timesFrequented));
+                (new BeerDB.DrinkerInfo(name, address,
+                        beersLiked, barsFrequented, timesFrequented));
         if (success) {
             return redirect(controllers.routes.Application
                             .viewDrinker(drinkerInfo.name));
@@ -75,5 +81,10 @@ public class Application extends Controller {
             return ok(error.render("No drinker named \"" + name + "\""));
         }
     }
+
+    public static Result searchCompanies() throws SQLException {
+        return ok(search.render());
+    }
+
 
 }

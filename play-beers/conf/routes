@@ -1,11 +1,15 @@
 # Routes
 # This file defines all application routes (Higher priority routes first)
+#GET /companies                      controllers.Application.searchCompany()
+#POST /companies                     controllers.Application.searchResults()
 # ~~~~
 
 GET     /                           controllers.Application.index()
 GET	/drinker/:name              controllers.Application.viewDrinker(name:String)
 GET     /edit-drinker/:name         controllers.Application.editDrinker(name:String)
 POST    /update-drinker             controllers.Application.updateDrinker()
+
+
 GET /companies/:test                 controllers.Application.viewCompany(test:String)
 
 
