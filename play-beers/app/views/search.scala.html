@@ -1,8 +1,36 @@
-@(searchFields: models.CompanyDB.SearchFields)
+@(fieldList: String)
 
-@main("Search!") { } {
-	<h1>
-        Hello
-    </h1>
+@main("Search") { } {
+	
+	
+	
+	<form>
+	  <table>
+	    <tr>
+	      <td align="right">Field:</td>
+	      <td align="left"><input type="checkbox" name="field" />Whatever da fuck dis is</td>
+	      <td align="right">Operator:</td>
+	      <td align="left"><input type="text" name="operator" /></td>
+	      <td align="right">Value:</td>
+	      <td align="left"><input type="text" name="value" /></td>
+	      <td align="left"><input type="submit" name="Search" /></td>
+	    </tr>
+	   
+	   @for(x <- 1 to 10){
+	      <tr>
+	      	<td/>
+	      	<td align="left"><input type="checkbox" name="field" />hello</td>
+	      	<td/>
+	     	<td align="left"><input type="text" name="operator" /></td>
+	     	<td/>
+	      	<td align="left"><input type="text" name="value" /></td>
+	      	
+	      </tr>	   
+	   }
+	   
+	   
+	  </table>
+	</form>
+
 
  }

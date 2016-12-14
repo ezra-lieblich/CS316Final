@@ -53,9 +53,12 @@ public class Application extends Controller {
         }
     }
     
-    public static Result searchCompanies() throws SQLException {
-        List<String> testList = new ArrayList<String>(Arrays.asList("hi", "yo"));
-    	return ok(search.render(testList));
+    
+    
+    public static Result viewSearch() throws SQLException {
+        List<String> testList = new ArrayList<String>();
+        testList.add("hello");
+    	return ok(search.render("hello"));
     }
 
 
