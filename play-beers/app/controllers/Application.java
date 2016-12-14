@@ -3,6 +3,8 @@ package controllers;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import play.*;
 import play.mvc.*;
@@ -26,9 +28,6 @@ public class Application extends Controller {
         return ok(compare.render(companyInfo));
     }
     
-    public static Result viewSearch() {
-        return ok(search.render());
-    }
 
     public static Result viewDrinker(String name) throws SQLException {
         BeerDB.DrinkerInfo drinkerInfo = BeerDB.getDrinkerInfo(name);
@@ -42,7 +41,9 @@ public class Application extends Controller {
     public static Result viewCompany(String key) throws SQLException {
     	CompanyDB.CompanyInfo companyInfo = CompanyDB.getTestDrinker(key);
         return ok(company.render(companyInfo));
-    }
+    }    
+
+   
 
     public static Result editDrinker(String name) throws SQLException {
         BeerDB.DrinkerInfo drinkerInfo = BeerDB.getDrinkerInfo(name);
@@ -54,6 +55,18 @@ public class Application extends Controller {
                                   BeerDB.getAllBarNames()));
         }
     }
+    
+    public static Result interpretQuery() throws SQLException{
+    	
+    	return ok(error.render("Bad Request"));
+    }
+    
+    public static Result viewSearch() throws SQLException {
+        List<String> testList = CompanyDB.getColumnNames();
+        testList.add("hello");
+    	return ok(search.render(testList));
+    }
+
 
     public static Result updateDrinker() throws SQLException {
         Map<String, String> data = Form.form().bindFromRequest().data();
@@ -93,6 +106,7 @@ public class Application extends Controller {
         }
     }
 
+
     public static Result searchCompanies() throws SQLException {
         Map<String, String> data = Form.form().bindFromRequest().data();
         String value = data.get("company");
@@ -103,8 +117,10 @@ public class Application extends Controller {
     	return ok(searchbartab.render("Enter a Company"));
     }
 
+
 //    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 //<script type='text/javascript' 
 //src='@routes.Assets.at("javascripts/js/bootstrap.js")'></script>
 //</body>
+
 }
