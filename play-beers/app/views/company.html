@@ -1,0 +1,12 @@
+@(companyInfo: models.CompanyDB.CompanyInfo)
+
+@main(companyInfo.name) { } {
+    <p>
+        Ticker Symbol: @companyInfo.ticker <br/>
+        @for((key, value) <- companyInfo.companyData) {
+            <li>@key: @value <li/>
+        }
+
+
+    </p>
+}
