@@ -3,6 +3,7 @@ package controllers;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import play.*;
 import play.mvc.*;
@@ -11,6 +12,7 @@ import play.data.*;
 import views.html.*;
 
 import models.BeerDB;
+import models.CompanyDB;
 
 public class Application extends Controller {
 
@@ -25,6 +27,11 @@ public class Application extends Controller {
         } else{
             return ok(drinker.render(drinkerInfo));
         }
+    }
+
+    public static Result viewCompany(String key) throws SQLException {
+        CompanyDB.CompanyInfo companyInfo = CompanyDB.getTestDrinker(key);
+        return ok(companies.render(companyInfo));
     }
 
     public static Result editDrinker(String name) throws SQLException {
