@@ -1,10 +1,28 @@
 @(companyInfo: models.CompanyDB.CompanyInfo)
 
 @main(companyInfo.name) { } {
-    <p>
-        Ticker Symbol: @companyInfo.ticker <br/>
-        @for((key, value) <- companyInfo.companyData) {
-            <li>@key: @value <li/>
+   
+    <div class = "table-responsive">
+   <table class = "table">
+      <caption>@companyInfo.ticker</caption>
+      
+      <thead>
+         <tr>
+            <th>Field</th>
+            <th>Value</th>
+         </tr>
+      </thead>
+      <tbody>
+       @for((key, value) <- companyInfo.companyData) {
+         <tr>
+            <td>@key</td>
+            <td>@value</td>
+         </tr>
         }
-    </p>
+         
+      </tbody>
+      
+   </table>
+
+    @searchform("Search For Another Company")
 }
