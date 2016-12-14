@@ -8,10 +8,13 @@ GET     /edit-drinker/:name         controllers.Application.editDrinker(name:Str
 POST    /update-drinker             controllers.Application.updateDrinker()
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 GET /companies                      controllers.Application.searchCompany()
 POST /companies                     controllers.Application.searchResults()
 GET /companies/:test                 controllers.Application.viewCompany(test:String)
 
+=======
+>>>>>>> parent of 7b18d8f... added a company front end view and CompanyDB
 =======
 >>>>>>> parent of 7b18d8f... added a company front end view and CompanyDB
 =======
