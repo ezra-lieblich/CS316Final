@@ -93,9 +93,7 @@ public class Application extends Controller {
     public static Result searchCompanies() throws SQLException {
         Map<String, String> data = Form.form().bindFromRequest().data();
         String value = data.get("company");
-        String fuckyouScala = "Dic";
         return redirect(controllers.routes.Application.viewCompany(value));
-        //return viewCompany(value);
     }
     
     public static Result searchTab() throws SQLException {
