@@ -87,14 +87,20 @@ public class Application extends Controller {
                         beersLiked, barsFrequented, timesFrequented));
         if (success) {
             return redirect(controllers.routes.Application
-                            .viewDrinker(drinkerInfo.name));
+                            .viewCompany(drinkerInfo.name));
         } else {
             return ok(error.render("No drinker named \"" + name + "\""));
         }
     }
 
     public static Result searchCompanies() throws SQLException {
-        return ok(search.render());
+        Map<String, String> data = Form.form().bindFromRequest().data();
+        String value = data.get("company");
+        return redirect(controllers.routes.Application.viewCompany(value));
+    }
+    
+    public static Result searchTab() throws SQLException {
+    	return ok(searchbartab.render("Enter a Company"));
     }
 
 //    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
