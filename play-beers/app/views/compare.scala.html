@@ -1,2 +1,11 @@
-@main("Compare") { } { }
+@(CurrentDB: models.CurrentDB)
 
+@main("Compare") { } {
+    <p>
+        @for((company, companyFinancials) <- CurrentDB.getCompanyInfo) {
+			@for((key, value) <- companyFinancials) {
+            	<li>@company: @key: @value <li/>
+            	}
+        }
+    </p>
+}
