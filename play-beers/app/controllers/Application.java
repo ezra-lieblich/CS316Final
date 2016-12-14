@@ -11,6 +11,7 @@ import play.data.*;
 import views.html.*;
 
 import models.BeerDB;
+import models.CompanyDB;
 
 public class Application extends Controller {
 
@@ -28,7 +29,7 @@ public class Application extends Controller {
     }
 
     public static Result viewCompany(String key) throws SQLException {
-        CompanyDB.CompanyInfo companyInfo = CompanyDB.getTestDrinker(key);
+    	CompanyDB.CompanyInfo companyInfo = CompanyDB.getTestDrinker(key);
         return ok(companies.render(companyInfo));
     }
 
