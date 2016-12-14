@@ -100,9 +100,7 @@ public class Application extends Controller {
         }
     }
 
-<<<<<<< HEAD
-   
-=======
+
     public static Result searchCompanies() throws SQLException {
         Map<String, String> data = Form.form().bindFromRequest().data();
         String value = data.get("company");
@@ -115,6 +113,6 @@ public class Application extends Controller {
     	return ok(searchbartab.render("Enter a Company"));
     }
 
->>>>>>> master
+
 
 }
