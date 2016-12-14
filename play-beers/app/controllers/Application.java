@@ -27,6 +27,11 @@ public class Application extends Controller {
         }
     }
 
+    public static Result viewCompany(String key) throws SQLException {
+        CompanyDB.CompanyInfo companyInfo = CompanyDB.getTestDrinker(key);
+        return ok(companies.render(companyInfo));
+    }
+
     public static Result editDrinker(String name) throws SQLException {
         BeerDB.DrinkerInfo drinkerInfo = BeerDB.getDrinkerInfo(name);
         if (drinkerInfo == null) {
@@ -66,8 +71,8 @@ public class Application extends Controller {
             }
         }
         boolean success = BeerDB.updateDrinkerInfo
-            (new BeerDB.DrinkerInfo(name, address,
-                                    beersLiked, barsFrequented, timesFrequented));
+                (new BeerDB.DrinkerInfo(name, address,
+                        beersLiked, barsFrequented, timesFrequented));
         if (success) {
             return redirect(controllers.routes.Application
                             .viewDrinker(drinkerInfo.name));
@@ -77,7 +82,8 @@ public class Application extends Controller {
     }
 
     public static Result searchCompanies() throws SQLException {
-        return ok(search.render())
+        return ok(search.render());
     }
+
 
 }
