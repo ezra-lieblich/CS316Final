@@ -14,6 +14,7 @@ import views.html.*;
 
 import models.BeerDB;
 import models.CompanyDB;
+import models.CurrentDB;
 
 public class Application extends Controller {
 
@@ -22,7 +23,9 @@ public class Application extends Controller {
     }
     
     public static Result viewCompare() {
-        return ok(compare.render());
+//        String[] results = new String[]{"Amazon", "Google", "Microsoft"};
+        CurrentDB companyInfo = new CurrentDB("Amazon", "Google", "Microsoft");
+        return ok(compare.render(companyInfo));
     }
     
 
@@ -115,5 +118,9 @@ public class Application extends Controller {
     }
 
 
+//    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+//<script type='text/javascript' 
+//src='@routes.Assets.at("javascripts/js/bootstrap.js")'></script>
+//</body>
 
 }
