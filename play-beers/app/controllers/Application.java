@@ -3,7 +3,6 @@ package controllers;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 import play.*;
 import play.mvc.*;
@@ -19,6 +18,14 @@ public class Application extends Controller {
     public static Result index() throws SQLException {
         return ok(index.render(BeerDB.getAllDrinkerNames()));
     }
+    
+    public static Result viewCompare() {
+        return ok(compare.render());
+    }
+    
+    public static Result viewSearch() {
+        return ok(search.render());
+    }
 
     public static Result viewDrinker(String name) throws SQLException {
         BeerDB.DrinkerInfo drinkerInfo = BeerDB.getDrinkerInfo(name);
@@ -30,8 +37,8 @@ public class Application extends Controller {
     }
 
     public static Result viewCompany(String key) throws SQLException {
-        CompanyDB.CompanyInfo companyInfo = CompanyDB.getTestDrinker(key);
-        return ok(companies.render(companyInfo));
+    	CompanyDB.CompanyInfo companyInfo = CompanyDB.getTestDrinker(key);
+        return ok(company.render(companyInfo));
     }
 
     public static Result editDrinker(String name) throws SQLException {
@@ -73,8 +80,8 @@ public class Application extends Controller {
             }
         }
         boolean success = BeerDB.updateDrinkerInfo
-            (new BeerDB.DrinkerInfo(name, address,
-                                    beersLiked, barsFrequented, timesFrequented));
+                (new BeerDB.DrinkerInfo(name, address,
+                        beersLiked, barsFrequented, timesFrequented));
         if (success) {
             return redirect(controllers.routes.Application
                             .viewDrinker(drinkerInfo.name));
@@ -82,5 +89,10 @@ public class Application extends Controller {
             return ok(error.render("No drinker named \"" + name + "\""));
         }
     }
+
+    public static Result searchCompanies() throws SQLException {
+        return ok(search.render());
+    }
+
 
 }
