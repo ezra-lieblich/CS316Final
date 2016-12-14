@@ -1,10 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+@(companyInfo: models.CompanyDB.CompanyInfo)
 
-</body>
-</html>
+@main(companyInfo.name) { } {
+    <p>
+        Ticker Symbol: @companyInfo.ticker <br/>
+        @for((key, value) <- companyInfo.companyData) {
+            <li>@key: @value <li/>
+        }
+
+
+    </p>
+}

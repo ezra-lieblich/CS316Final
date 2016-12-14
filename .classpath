@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="play-beers/app"/>
+	<classpathentry kind="src" path="play-beers/target/scala-2.11/src_managed/main"/>
+	<classpathentry kind="src" path="play-beers/test"/>
+	<classpathentry kind="lib" path="play-beers/activator-launch-1.2.10.jar"/>
+	<classpathentry kind="lib" path="play-beers/project/target/coffeescript/sbt-coffeescript-1.0.0.jar"/>
+	<classpathentry kind="lib" path="play-beers/project/target/jshint/sbt-jshint-1.0.1.jar"/>
+	<classpathentry kind="lib" path="play-beers/project/target/less/sbt-less-1.0.0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="play-beers/target/scala-2.11/classes"/>
+</classpath>
