@@ -10,7 +10,6 @@
     <meta name="keywords" content="play, java, db-finance"/>
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8"/>
     <link rel="stylesheet" href="@routes.Assets.at("stylesheets/css/bootstrap.min.css")" type="text/css" media="screen"/>
-    @script
   </head>
   <body>
   	<nav class="navbar navbar-default" role="navigation">
@@ -26,7 +25,7 @@
   			</div>
   			<div class="collapse navbar-collapse" id="navbar-container">
   				<ul class="nav navbar-nav">
-  					<li class="active"><a href="#">Home</a></li>
+  					<li class="active"><a href="@routes.Application.index()">Home</a></li>
   					<li class="active"><a href="@routes.Application.viewSearch()">Search</a></li>
   					<li class="active"><a href="@routes.Application.viewCompany("Amazon")">Company</a></li>
   					<li class="active"><a href="@routes.Application.viewCompare()">Compare</a></li>

@@ -1,11 +1,26 @@
 @(CurrentDB: models.CurrentDB)
+@mapData = @{CurrentDB.getCompanyInfo}
 
 @main("Compare") { } {
-    <p>
-        @for((company, companyFinancials) <- CurrentDB.getCompanyInfo) {
-			@for((key, value) <- companyFinancials) {
-            	<li>@company: @key: @value <li/>
-            	}
-        }
-    </p>
+<body>
+    <table class = "table table-condensed">
+   		<caption>Company's Current Financial Data</caption>
+   			<thead>
+   				<tr>
+   					@for(key <- CurrentDB.getFields()) {
+   						<th>@key</th>
+   					}
+   				</tr>
+   			</thead>
+   			<tbody>
+			        @for((company, companyFinancials) <- mapData) {
+			        <tr>
+			        	<td>@company</td>
+						@for((key, value) <- companyFinancials) {
+			            	<td>@value</td>
+			            	}
+			        </tr>
+			        }
+			</tbody>
+	</table>
 }

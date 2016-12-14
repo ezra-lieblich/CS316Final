@@ -97,5 +97,8 @@ public class Application extends Controller {
         return ok(search.render());
     }
 
-
+//    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+//<script type='text/javascript' 
+//src='@routes.Assets.at("javascripts/js/bootstrap.js")'></script>
+//</body>
 }
