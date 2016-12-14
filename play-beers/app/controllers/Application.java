@@ -19,10 +19,6 @@ public class Application extends Controller {
         return ok(index.render(BeerDB.getAllDrinkerNames()));
     }
     
-    public static Result viewCompany(String name) {
-        return ok(company.render());
-    }
-    
     public static Result viewCompare() {
         return ok(compare.render());
     }
@@ -42,7 +38,7 @@ public class Application extends Controller {
 
     public static Result viewCompany(String key) throws SQLException {
     	CompanyDB.CompanyInfo companyInfo = CompanyDB.getTestDrinker(key);
-        return ok(companies.render(companyInfo));
+        return ok(company.render(companyInfo));
     }
 
     public static Result editDrinker(String name) throws SQLException {
