@@ -12,6 +12,17 @@ public class QuarterlyReportObject {
 		this.path = path;
 	}
 	
+	public String getName(){
+		return name;
+	}
+	
+	public String getDate(){
+		return date;
+	}
+	
+	public String getPath(){
+		return path;
+	}
 	
 	
 
