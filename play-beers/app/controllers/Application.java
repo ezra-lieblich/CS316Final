@@ -3,6 +3,8 @@ package controllers;
 import java.sql.SQLException;
 import java.util.Map;
 import javax.swing.text.html.HTML;
+
+
 import java.util.ArrayList;
 
 import java.util.Arrays;
@@ -12,6 +14,7 @@ import java.util.List;
 import play.*;
 import play.mvc.*;
 import play.data.*;
+import play.data.Form.*;
 import play.libs.*;
 import play.twirl.api.Html;
 import views.html.*;
@@ -21,6 +24,7 @@ import models.CompanyDB;
 import models.CurrentDB;
 import models.QueryHelper;
 import models.QueryObject;
+import models.QuarterlyReportObject;
 
 public class Application extends Controller {
 
@@ -51,6 +55,9 @@ public class Application extends Controller {
     	CompanyDB.CompanyInfo companyInfo = CompanyDB.getCompanyInfo(key);
     	if (companyInfo.name == "")
     		return ok(error.render("Not a valid company named. Enter companies ticker symbol"));
+    	
+    //	List<QuarterlyReportObject> companyQuarterlyReports = CompanyDB.	Diane: method I wrote isn't showing up when i type CompanyDB.
+    	
         return ok(company.render(companyInfo));
     }    
 
