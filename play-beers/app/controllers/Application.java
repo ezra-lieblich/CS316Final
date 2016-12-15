@@ -3,14 +3,18 @@ package controllers;
 import java.sql.SQLException;
 import java.util.Map;
 import javax.swing.text.html.HTML;
+
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import play.*;
 import play.mvc.*;
 import play.data.*;
+import play.data.Form.*;
 import play.libs.*;
 import play.twirl.api.Html;
 import views.html.*;
@@ -18,6 +22,9 @@ import views.html.*;
 import models.BeerDB;
 import models.CompanyDB;
 import models.CurrentDB;
+import models.QueryHelper;
+import models.QueryObject;
+import models.QuarterlyReportObject;
 
 public class Application extends Controller {
 
@@ -46,7 +53,11 @@ public class Application extends Controller {
 
     public static Result viewCompany(String key) throws SQLException {
     	CompanyDB.CompanyInfo companyInfo = CompanyDB.getCompanyInfo(key);
-        return ok(company.render(companyInfo));
+    	if (companyInfo.name == "")
+    		return ok(error.render("Not a valid company named. Enter companies ticker symbol"));
+    	List<QuarterlyReportObject> quarterlyReports = CompanyDB.getCompanyQuarterlyReports(key);
+    	Logger.debug("DIANE");
+        return ok(company.render(companyInfo, quarterlyReports));
     }    
 
    
@@ -63,13 +74,22 @@ public class Application extends Controller {
 //    }
 //    
     public static Result interpretQuery() throws SQLException{
+    	QueryHelper queryHelper = new QueryHelper();
+        Map<String, String> data = Form.form().bindFromRequest().data();
+        List<QueryObject> parameters = queryHelper.getCheckedQueries(data);
+//        for (QueryObject param : parameters) {
+//        	Logger.debug("result");
+//        	Logger.debug(param.column);
+//        	Logger.debug(param.operator);
+//        	Logger.debug(param.value);
+//        }
+        List<String> answer = CompanyDB.queryResults(parameters);    	
     	
-    	return ok(error.render("Bad Request"));
+    	return ok(queryresult.render(answer));
     }
     
     public static Result viewSearch() throws SQLException {
         List<String> testList = CompanyDB.getColumnNames();
-        testList.add("hello");
     	return ok(search.render(testList));
     }
 
@@ -121,6 +141,15 @@ public class Application extends Controller {
     
     public static Result searchTab() throws SQLException {
     	return ok(searchbartab.render("Enter a Company"));
+    }
+    
+    public static Result setupCompare() throws SQLException {
+        Map<String, String> data = Form.form().bindFromRequest().data();
+    	Logger.debug("size " + data.size());
+
+    	List<String> companies = new ArrayList<String>(data.keySet());
+    	//return ok("price", compare.render(companies));
+    	return ok(error.render("ARR"));
     }
 
 //    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

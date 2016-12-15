@@ -39,6 +39,7 @@ public class CompanyDB {
 
         public CompanyInfo(String key) {
         	ticker = key;
+        	name = "";
             companyData = new HashMap<String, Float>();
             try {
                 setupCompanyInfo(key);
@@ -47,23 +48,14 @@ public class CompanyDB {
             catch (Exception e){
             }
         }
-
-        public CompanyInfo(String key, String test) {
-            companyData = new HashMap<String, Float>();
-            name = key;
-            ticker = "AAPL";
-//            companyData.put("test field", 392.0);
-//            companyData.put("word", 37.0);
-        }
-
-
+        
+    
         private void setupCompanyInfo(String key) throws SQLException{
             Connection connection = null;
             PreparedStatement statement = null;
             ResultSet rs = null;
             String[] stringCols = new String[]{"name","ticker","exchange"};
             try {
-            	Logger.debug("connecting to database");
                 connection = DB.getConnection();
                 // retrieve basic info:
                 statement = connection
@@ -84,12 +76,8 @@ public class CompanyDB {
                 		companyData.put(name, rs.getFloat(name));
                 	}
                 }
-                Logger.debug("size={}", companyData.size());
-
-                
-
-                rs.close();
-                statement.close();
+               rs.close();
+               statement.close();
             }
             catch(Exception e){
             	Logger.debug("Couldnt connect");
@@ -105,73 +93,67 @@ public class CompanyDB {
     public static CompanyInfo getCompanyInfo(String key) {
         return new CompanyInfo(key);
     }
-
-    public static CompanyInfo getTestDrinker(String key) {
-        return new CompanyInfo(key, "help");
-    }
     
     public static List<String> getColumnNames() {
     	List<String> columns = new ArrayList<String>();
-    	//Uncomment Later
-//        Connection connection = null;
-//        try {
-//            connection = DB.getConnection();
-//            PreparedStatement statement = connection
-//                    .prepareStatement("SELECT * FROM current WHERE name = Amazon");
-//            ResultSet rs = statement.executeQuery();
-//            if (! rs.next()) {
-//                return columns;
-//            }
-//            int size = rs.getMetaData().getColumnCount();
-//            for (int i = 0; i < size; i++) {
-//            	String name = rs.getMetaData().getColumnName(i);
-//            	columns.add(name);
-//            }
-//            statement.close();
-//        } finally {
-//            if (connection != null) {
-//                try {
-//                    connection.close();
-//                } catch (Exception e) {
-//                }
-//            }
-//        }
-    	columns.add("test one");
-    	columns.add("Jun");
-    	columns.add("fun");
+        Connection connection = null;
+        try {
+            connection = DB.getConnection();
+            PreparedStatement statement = connection
+                    .prepareStatement("SELECT * FROM current Where ticker = ?");
+            statement.setString(1, "AMZN");
+            ResultSet rs = statement.executeQuery();
+
+            if (! rs.next()) {
+                return columns;
+            }
+            int size = rs.getMetaData().getColumnCount();
+            for (int i = 0+1; i < size+1; i++) {
+            	String name = rs.getMetaData().getColumnName(i);
+            	columns.add(name);
+            }
+
+            statement.close();
+        } catch (Exception e) {
+        	Logger.debug("COULDNT GET COLUMN NAMES");
+        }
         return columns;
     }
     
     //list of names or Object with other information
     public static List<String> queryResults(List<QueryObject> queries) {
     	List<String> names = new ArrayList<String>();
-//      Connection connection = null;
-//      try {
-//          connection = DB.getConnection();
-//          String preparedText = getPreparedStatement(queries);
-//          PreparedStatement statement = connection
-//                  .prepareStatement(preparedText);
-//          ResultSet rs = statement.executeQuery();
-//          while(rs.next()) {
-//        	  names.add(rs.getString(1));
-//          }
-//          statement.close();
-//      } finally {
-//          if (connection != null) {
-//              try {
-//                  connection.close();
-//              } catch (Exception e) {
-//              }
-//          }
-//      }
+      Connection connection = null;
+      try {
+          connection = DB.getConnection();
+          String preparedText = getPreparedStatement(queries);
+          Logger.debug(preparedText);
+          PreparedStatement statement = connection
+                  .prepareStatement(preparedText);
+          ResultSet rs = statement.executeQuery();
+          while(rs.next()) {
+        	  names.add(rs.getString(1));
+          }
+          statement.close();
+      } catch (Exception e) {
+    	  Logger.debug(e.toString());
+      }
       return names;
     }
     
     private static String getPreparedStatement(List<QueryObject> queries) {
-    	String conditions = "Select name FROM current Where ";
+    	String conditions = "Select ticker FROM current Where ";
+    	boolean first = true;
     	for (QueryObject query : queries) {
-    		if (validateQuery(query))
-    			conditions += query.column + query.operator + query.value;
+    		if (validateQuery(query)) {
+    			if (first) {
+    				conditions += query.column + query.operator + query.value;
+    				first = false;
+    			}
+    			else{
+    				conditions += " And " + query.column + query.operator + query.value;
+    			}
+    		}
     	}
     	return conditions;
     }
@@ -195,6 +177,48 @@ public class CompanyDB {
 		String[] operators = new String[]{"=", "!=", ">", "<", ">=", "<-"};
 		return Arrays.asList(operators).contains(operator);
 	}
+
+	public static List<QuarterlyReportObject> getCompanyQuarterlyReports(String key) throws SQLException{
+		List<QuarterlyReportObject> quarterlyReportList = new ArrayList<QuarterlyReportObject>();
+    	Connection connection = null;
+    	try {
+            connection = DB.getConnection();                
+            PreparedStatement statement = connection
+                    .prepareStatement("SELECT name, date, path "
+                    		+ "FROM current "
+                    		+ "FULL OUTER JOIN quarterly "
+                    		+ "ON current.name = quarterly.conm "
+                    		+ "WHERE current.name = ? "
+                    		+ "AND quarterly.type = ?");
+            statement.setString(1, key);
+            statement.setString(2, "10-Q");
+            ResultSet rs = statement.executeQuery();
+            if (! rs.next()) {             	
+                return quarterlyReportList;
+            }            
+            rs.last();
+            int numRows = rs.getRow();
+            rs.beforeFirst();
+            for (int i = 1; i < numRows + 1; i++){
+            	rs.absolute(i);
+            	QuarterlyReportObject quarterlyReport = new QuarterlyReportObject(
+            			rs.getString("name"), 
+            			rs.getString("date"),
+            			rs.getString("path"));
+            	quarterlyReportList.add(quarterlyReport);
+            }
+            rs.close();
+            statement.close();
+            Logger.debug("DIANE");
+            return quarterlyReportList;            
+    	}
+        catch(Exception e){
+        	Logger.debug("Couldnt connect");
+        }
+    	return null;
+	}
+
+	
 
     
 }
