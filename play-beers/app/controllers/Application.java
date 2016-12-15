@@ -39,7 +39,7 @@ public class Application extends Controller {
     }
 
     public static Result viewCompany(String key) throws SQLException {
-    	CompanyDB.CompanyInfo companyInfo = CompanyDB.getTestDrinker(key);
+    	CompanyDB.CompanyInfo companyInfo = CompanyDB.getCompanyInfo(key);
         return ok(company.render(companyInfo));
     }    
 
