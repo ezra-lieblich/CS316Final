@@ -47,12 +47,12 @@ table-layout: fixed;
 </body>
   </head>
 
-    <div id="curve_chart" style="width: 900px; height: 500px"></div>   
+    <div id="curve_chart" style="width: 900px; height: 500px; float: left"></div>   
     <div style="float: left">
     	<ul>
     
-    	@for(x <- CurrentDB.getFields()){  
-    		<li>@x</li>
+    	@for(x <- CurrentDB.getOverTimeFields()){  
+    		<li><a href="@routes.Application.updateCompare(x)">@x</a></li>
     	}   
     	</ul>
     </div>
