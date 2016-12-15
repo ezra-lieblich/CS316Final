@@ -1,9 +1,18 @@
 
+@(names: List[String])
 
-@main("All knjk") { } {
-  <p>Browse Companies :
+
+@main("") { } {
+  
+  <p>Welcome to FinanceDB! Use these tools to search, compare, and investigate companies.</p>
+  
+  <br>
+  
+  <p>Project Creators :
     <ul>
-
+      @for(name <- names) {      
+          <li>@name</li>        
+      }
     </ul>
   </p>
 }
