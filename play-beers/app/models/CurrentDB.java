@@ -1,68 +1,127 @@
 package models;
 
+// import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.*;
+import java.lang.Exception;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import play.db.*;
+import play.Logger;
 
 
 public class CurrentDB {
     public Map<String, Map<String, Double>> companyDataMap;
+    public Map<String, List<Double>> overTimeData;
     public Set<String> fields;
+    public String graphKey;
 
-    public CurrentDB (String ... companies) {
+    public CurrentDB (String graphKey, String ... companies) {
         // List<String> companyList = Stream.of(companies).collect(Collectors.toList()); //toMap(e
         // -> (String) e.getKey(), e -> (Map<String, Map<String, Double>>)new HashMap<String,
         // Double>())); //.collect(Collectors.toList());
+        this.graphKey = graphKey;
         this.companyDataMap = new LinkedHashMap<String, Map<String, Double>>();
-        this.fields = new HashSet<String>();
+        this.overTimeData = new LinkedHashMap<String, List<Double>>();
+        this.fields = new LinkedHashSet<String>();
+        fields.add("Ticker");
         // companyList.forEach(a -> this.companies.put(a, new LinkedHashMap<String, Double>()) );
         for (String company : companies) {
             this.companyDataMap.put(company, new LinkedHashMap<String, Double>());
         }
 
-        // setUpTable(companies);
-
-        this.companyDataMap.get("Amazon").put("stockPrice", 300.0);
-        this.companyDataMap.get("Google").put("stockPrice", 200.0);
-        this.companyDataMap.get("Microsoft").put("stockPrice", 100.0);
-        this.companyDataMap.get("Amazon").put("MCAP", 330.0);
-        this.companyDataMap.get("Google").put("MCAP", 220.0);
-        this.companyDataMap.get("Microsoft").put("MCAP", 110.0);
-        fields.add("CompanyPrice");
-        fields.add("StockPrice");
-        fields.add("MCAP");
-//        Map<String, Double> agg = new LinkedHashMap<String, Double>();
-//        agg.put("stockPrice", 0.0);
-//        agg.put("MCAP", 0.0);
-//        this.companyDataMap.put("Aggregate", agg);
-
-//        for (Entry<String, Map<String, Double>> entry : companyDataMap.entrySet()) {
-//            if (!entry.getKey().equals("Aggregate")) {
-//                for (Entry<String, Double> values : entry.getValue().entrySet()) {
-//                    Double currentAverage =
-//                            this.companyDataMap.get("Aggregate").get(values.getValue()) == null ? 0
-//                                                                                                : this.companyDataMap
-//                                                                                                        .get("Aggregate")
-//                                                                                                        .get(values
-//                                                                                                                .getValue());
-//                    this.companyDataMap.get("Aggregate")
-//                            .put(values.getKey(), runningAverage(currentAverage, this.companyDataMap
-//                                    .get(values.getKey()).get(values.getValue())));
-//                }
-//            }
-//        }
+        setUpTable(companies);
+        setUpOverTimeData(companies, graphKey);
     }
 
+    public void setUpOverTimeData(String[] companies, String key) {
+        Logger.debug("Start overTime");
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DB.getConnection();
+            for (String company : companies) {
+                overTimeData.put(company, new ArrayList<Double>());
+                String queryString = "SELECT symbol, date, " + key + " FROM past Where symbol = ? ORDER BY date DESC";
+                statement = connection
+                        .prepareStatement(queryString); // ORDER BY date");
+       
+//                statement.setString(1, key);
+                statement.setString(1, company);
+                resultSet = statement.executeQuery();
+                while (resultSet.next()) {
+                    String name = resultSet.getString("symbol");
+                    double result;
+                    if(resultSet.getMetaData().getColumnType(3) == Types.INTEGER) {
+                        result = (double)resultSet.getInt(3);
+                    }
+                    else if (resultSet.getMetaData().getColumnType(3) == Types.FLOAT) {
+                        result = (double)resultSet.getFloat(3);
+                    }
+                    else if (resultSet.getMetaData().getColumnType(3) == Types.DOUBLE) {
+                        result = resultSet.getDouble(3);
+                    }
+                    else {
+                        //Logger.debug(Types.DOUBLE + " " + Types.INTEGER + " " + Types.NUMERIC + " " + Types.FLOAT + " " + Types.VARCHAR + " " + Types.DISTINCT + " " + Types.DECIMAL + " " + Types.NVARCHAR);
+//                        Logger.debug(resultSet.getMetaData().getColumnType(3) + "");
+//                        Logger.debug(resultSet.getString(3));
+//                        try {
+//                            Logger.debug(resultSet.getString(3));
+//                            result = Double.valueOf(resultSet.getString(3));
+//                        }catch(Exception e) {
+//                            continue;
+//                        }
+                        continue;
+                    }
+                    //Logger.debug(name + " " + result);
+                    Logger.debug(company + " " + resultSet.getDate(2) + " " + result);
+                    this.overTimeData.get(company).add(result);
+                    //Logger.debug(name);
+                }
+            }
+            Logger.debug("End overtime");
+        }
+        catch (Exception e) {
+            Logger.debug(e.getMessage());
+        }
+        finally {
+            if (resultSet != null)
+                try {
+                    resultSet.close();
+                }
+                catch (SQLException ignore) {
+                }
+            if (statement != null)
+                try {
+                    statement.close();
+                }
+                catch (SQLException ignore) {
+                }
+            if (connection != null)
+                try {
+                    connection.close();
+                }
+                catch (SQLException ignore) {
+                }
+        }
+    }
+    
     double runningAverage (double average, double new_sample) {
 
         average -= average / (companyDataMap.size() - 1);
@@ -71,44 +130,164 @@ public class CurrentDB {
         return average;
     }
 
-    // public void setUpTable(String[] companies) {
-    // Connection connection = null;
-    // try {
-    // connection = DB.getConnection();
-    // PreparedStatement statement = connection
-    // .prepareStatement("SELECT * FROM ? WHERE company = ?");
-    // for(String company : companies) {
-    // String companyOverTimeData = company + "OverTimeData";
-    // statement.setString(1, company);
-    // ResultSet rs = statement.executeQuery();
+    public void setUpTable (String[] companies) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            //Logger.debug("God help me");
+            connection = DB.getConnection();
+            for (String company : companies) {
+                statement = connection
+                        .prepareStatement("SELECT * FROM current Where ticker = ?");
+       
+                statement.setString(1, company);
+                resultSet = statement.executeQuery();
+                //Logger.debug("HERE");
+                while (resultSet.next()) {
+                    String name = resultSet.getString("ticker");
+                    Logger.debug(name);
+                    for (int i = 1; i < resultSet.getMetaData().getColumnCount(); i++) {
+                        double result;
+                        if(resultSet.getMetaData().getColumnType(i) == Types.INTEGER) {
+                            result = (double)resultSet.getInt(i);
+                        }
+                        else if (resultSet.getMetaData().getColumnType(i) == Types.FLOAT) {
+                            result = (double)resultSet.getFloat(i);
+                        }
+                        else if (resultSet.getMetaData().getColumnType(i) == Types.DOUBLE) {
+                            result = resultSet.getDouble(i);
+                        }
+                        else {
+                            continue;
+                        }
+                        String columnName = resultSet.getMetaData().getColumnName(i);
+                        fields.add(columnName);
+                        //Logger.debug(columnName);
+                        this.companyDataMap.get(name).put(columnName, result);
+                    }
+                }
+            }
+        }
+        catch (Exception e) {
+            Logger.debug(e.getMessage());
+        }
+        finally {
+            if (resultSet != null)
+                try {
+                    resultSet.close();
+                }
+                catch (SQLException ignore) {
+                }
+            if (statement != null)
+                try {
+                    statement.close();
+                }
+                catch (SQLException ignore) {
+                }
+            if (connection != null)
+                try {
+                    connection.close();
+                }
+                catch (SQLException ignore) {
+                }
+        }
+    }
+    // statement = connection.createStatement(); //connection.prepareStatement("SELECT * FROM
+    // current Where ticker = ?");
+    // //statement.setString(1, "AMZN");
+    // Logger.debug("THERE");
+    // resultSet = statement.executeQuery("SELECT * FROM current Where ticker = 'AMZN'");
+
     // while (!rs.next()) {
-    // for (int i = 1; i< rs.getMetaData().getColumnCount(); i++) {
+    // Logger.debug("blh");
+    // for (int i = 1; i < rs.getMetaData().getColumnCount(); i++) {
     // String columnName = rs.getMetaData().getColumnName(i);
     // Double value = rs.getDouble(i);
-    // this.companyDataMap.get(company).put(columnName, value);
+    // Logger.debug(columnName);
+    // this.companyDataMap.get("AMZN").put(columnName, value);
     // this.companyDataMap.get("Aggregate").put(columnName,
-    // this.companyDataMap.get("Aggregate").get(columnName)/this.companyDataMap.size());
+    // this.companyDataMap
+    // .get("Aggregate")
+    // .get(columnName) /
+    // this.companyDataMap
+    // .size());
     // }
     // }
     // }
-    // }
-    // catch (Exception e) {
-    // }
+    // // }
+    // catch(
+    //
+    // Exception e)
+    // {
     // }
 
     public Map<String, Map<String, Double>> getCompanyInfo () {
         return companyDataMap;
     }
 
-    public Collection<String> getFields() {
+    public Collection<String> getFields () {
+        Logger.debug(fields.toArray().toString());
         return fields;
     }
-    
-    public List<List<Object>> getGraphData() {
+
+    public List<List<Object>> getGraphData () {
         List<List<Object>> graphData = new ArrayList<List<Object>>();
-        graphData.add(new ArrayList<Object>(Arrays.asList("Year", "Sales", "Expenses"))); //new Object[][]{new Object[]{"Year", "Sales", "Expenses"}, new Object[]{"2004",  1000, 400}, new Object[]{"2005",  1170, 460}};
-        graphData.add(new ArrayList<Object>(Arrays.asList("2004",  1000, 400)));
-        graphData.add(new ArrayList<Object>(Arrays.asList("2005",  1170, 460)));
+        Calendar calendar = Calendar.getInstance();
+        int month;
+        int day;
+        int year;
+        List<Object> header = new ArrayList<Object>();
+        String dateHeader = "Day";
+//        Map<String, String> dateHeader = new HashMap<String, String>();
+//        dateHeader.put("type", "datetime");
+//        dateHeader.put("id", "Year");
+        header.add(dateHeader);
+        for(String company : overTimeData.keySet()) {
+            header.add(company);
+        }
+        for(int i = 0; i < 10; i++) {
+            month = calendar.getTime().getMonth();
+            day = calendar.getTime().getDate();
+            year = calendar.getTime().getYear();
+            Date date = new Date(year, month-1, day);
+            List<Object> dateList = new ArrayList<Object>();
+            dateList.add(date);
+            graphData.add(dateList);
+            int monthEnum = Calendar.DAY_OF_MONTH;
+            calendar.add(monthEnum, -1);
+        }
+        int index = 0;
+        for(Entry<String, List<Double>> company : overTimeData.entrySet()) {
+            for(Double value : company.getValue()) {
+               graphData.get(index).add(value);
+               index++;
+               if(index >= 10) {
+                   break;
+               }
+            }
+            index = 0;
+        }
+        Collections.reverse(graphData);
+        graphData.add(0, header);
+
+
+        Logger.debug("did this finish");
+        List<List<Object>> testData = new ArrayList<List<Object>>();
+
+        testData.add(new ArrayList<Object>(Arrays.asList("Year", "AMZN", "GOOGL"))); // Year, Company...
+        testData.add(new ArrayList<Object>(Arrays.asList(new Date(2016, 0, 1), 1000, 400)));
+        testData.add(new ArrayList<Object>(Arrays.asList(new Date(2015, 0, 2), 1170, 460)));
+        
+        for(List<Object> values : graphData) {
+            StringBuilder sb = new StringBuilder();
+            for(Object val : values) {
+                sb.append(val.toString() + " ");
+            }
+            Logger.debug(sb.toString());
+        }
+        
         return graphData;
     }
 }
+
