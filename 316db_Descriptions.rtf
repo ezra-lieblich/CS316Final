@@ -1,0 +1,92 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
+{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;\f1\fnil\fcharset0 Menlo-Bold;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red0\green0\blue0;}
+\margl1440\margr1440\vieww14640\viewh8840\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs20 \cf2 \CocoaLigature0 	
+\f1\b CURRENT
+\f0\b0 \
+------------------------------------------------\
+\
+316project=# \\d+ current;\
+                                         Table "public.current"\
+           Column           |         Type          | Modifiers |Description \
+----------------------------+-----------------------+-----------+-------------------------------------\
+ yearLow                    | double precision      |           | lowest stock price of calendar year\
+ pricePerEarnings           | double precision      |           | \cf0 ratio of price to earnings per share\cf2 \
+ yearHigh                   | double precision      |           | highest stock price of calendar year\
+ priceEarningsGrowthRatio   | double precision      |           | \cf0 PricePerEarnings / earnings growth rate\cf2 \
+ name                       | character varying     |           | Name of company\
+ dailyLow                   | double precision      |           | Lowest stock price of day\
+ priceSales                 | double precision      |           | \cf0 ratio of price to revenue per share\cf2 \
+ ticker                     | character varying(10) | not null  | Company ticker symbol\
+ price                      | double precision      |           | Price of a single share\
+ exchange                   | character varying     |           | Stock market of listing\
+ dividendYield              | double precision      |           | \cf0 Dividends per share / price per share\cf2 \
+ earningsPerShare           | double precision      |           | \cf0 Total earnings / number of shares\cf2 \
+ volume                     | integer               |           | Number of shares traded in day\
+ dailyHigh                  | double precision      |           | Highest price of the day\
+ fiftyDayMovingAverage      | double precision      |           | Average price from last 50 days\
+ twoHundredDayMovingAverage | double precision      |           | Average price from last 200 days\
+ marketCap                  | bigint                |           | Price of share * number of shares\
+ divedendPerShare           | double precision      |           | Dividends paid per share\
+ open                       | double precision      |           | Price at opening time\
+ avgDailyVolume             | integer               |           | Average volume per day\
+\
+Indexes:\
+    "current_pkey" PRIMARY KEY, btree (ticker)\
+\
+\
+--------------------------------------------------------\
+	
+\f1\b PAST
+\f0\b0 \
+--------------------------------------------------------\
+316project=# \\d+ past;\
+                                          Table "public.past"\
+           Column           |         Type          | Modifiers | Description \
+----------------------------+-----------------------+-----------+---------------------------------\
+ volume                     | integer               |           | number of stocks sold that day\
+ symbol                     | character varying(10) | not null  | Company ticker symbol\
+ adj_close                  | double precision      |           | Price adjusted to include corporate actions\
+ high                       | double precision      |           | highest stock price of day\
+ low                        | double precision      |           | lowest stock price of day\
+ date                       | date                  | not null  | Date of listing\
+ close                      | double precision      |           | Stock price at closing time\
+ open                       | double precision      |           | Stock price at opening\
+ pricePerEarnings           | double precision      |           | \cf0 ratio of price to earnings per share\cf2 \
+ priceEarningsGrowthRatio   | double precision      |           | PricePerEarnings / earnings growth rate\
+ priceSales                 | double precision      |           | ratio of price to revenue per share\
+ dividendYield              | double precision      |           | Dividends per share / price per share\
+ earningsPerShare           | double precision      |           | Total earnings / number of shares\
+ fiftyDayMovingAverage      | double precision      |           | Average price from last 50 days\
+ twoHundredDayMovingAverage | double precision      |           | Average price from last 200 days\
+ marketCap                  | bigint                |           | Price of share * number of shares\
+ divedendPerShare           | double precision      |           | Dividends paid per share\
+ avgDailyVolume             | integer               |           | Average volume per day\
+\
+Indexes:\
+    "past_pkey" PRIMARY KEY, btree (symbol, date)\
+\
+\
+-------------------------------------------------------\
+	
+\f1\b QUARTERLY	
+\f0\b0 \
+--------------------------------------------------------\
+316project=# \\d+ quarterly;\
+                     Table "public.quarterly"\
+ Column | Type 		| Modifiers | Description \
+--------+--------------+-----------+---------------------------\
+ cik    | text 		|           | Edgar Central index key for company\
+ conm   | text 		|           | Company name\
+ type   | text 		|           | Type of report\
+ date   | text 		|           | Date of quarterly report\
+ path   | text 		| not null  |\cf3 \expnd0\expndtw0\kerning0
+\CocoaLigature1 \outl0\strokewidth0 \strokec3  Resource path of quarterly report\
+ ticker | char\cf0 \kerning1\expnd0\expndtw0 \CocoaLigature0 \outl0\strokewidth0  varying | 		   | Company ticker symbol\cf2 \
+\
+Indexes:\
+    "quarterly_pkey" PRIMARY KEY, btree (path)\
+}
