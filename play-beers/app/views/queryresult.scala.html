@@ -13,6 +13,7 @@
       </thead>
       <form method="post" action="@routes.Application.setupCompare()" id="searchform">
 	      <tbody>
+	      <td align="right"><input type="submit" form="searchform" value="Compare Companies" /></td>	
 	       @for( ticker <- resultList) {
 	         <tr>
 	            <td><a href="@routes.Application.viewCompany(ticker)">@ticker</a></td>
@@ -20,7 +21,6 @@
 	         </tr>
 	        }  
 	      </tbody>
-	      <td align="right"><input type="submit" form="searchform" value="Compare Companies" /></td>	
       </form>
       
    </table>
