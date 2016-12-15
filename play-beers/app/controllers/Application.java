@@ -4,13 +4,10 @@ import java.sql.SQLException;
 import java.util.Map;
 import javax.swing.text.html.HTML;
 import java.util.ArrayList;
-<<<<<<< HEAD
-import java.util.List;
-=======
+
 import java.util.Arrays;
 import java.util.List;
 
->>>>>>> master
 import play.*;
 import play.mvc.*;
 import play.data.*;
@@ -66,13 +63,16 @@ public class Application extends Controller {
     }
     
     public static Result interpretQuery() throws SQLException{
+    	//Form.form().bindFromRequest().data());
+    	
+    	
+    	
     	
     	return ok(error.render("Bad Request"));
     }
     
     public static Result viewSearch() throws SQLException {
         List<String> testList = CompanyDB.getColumnNames();
-        testList.add("hello");
     	return ok(search.render(testList));
     }
 
