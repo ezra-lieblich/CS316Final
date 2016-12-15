@@ -1,12 +1,17 @@
-@(drinkers: List[String])
+@(names: List[String])
 
-@main("All knjk") { } {
-  <p>Browse Companies :
+@main("") { } {
+  
+  <p>Welcome to FinanceDB! Use these tools to search, compare, and investigate companies.</p>
+  
+  <br>
+  
+  <p>Project Creators :
     <ul>
-      @for(name <- drinkers) {
-        <label>
-          <li><a href="@routes.Application.viewDrinker(name)">@name <input type="checkbox" name="box" checked="checked" value="true"></a></li>
-        </label>
+      @for(name <- names) {
+        
+          <li>@name</li>
+        
       }
     </ul>
   </p>
