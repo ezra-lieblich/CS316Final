@@ -1,3 +1,4 @@
+This the CS316 Fall 2016 project for Andrew Bihl, Will Rollins, Sean Hudson, Diane Hadley, and Ezra Lieblich. 
 
 Table schemes are described in 316db_Descriptions.rtf. The database is a Postgres relational database serviced through Heroku and hosted on AWS. 
 
