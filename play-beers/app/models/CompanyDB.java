@@ -59,15 +59,17 @@ public class CompanyDB {
 
         private void setupCompanyInfo(String key) throws SQLException{
             Connection connection = null;
+            PreparedStatement statement = null;
+            ResultSet rs = null;
             String[] stringCols = new String[]{"name","ticker","exchange"};
             try {
             	Logger.debug("connecting to database");
                 connection = DB.getConnection();
                 // retrieve basic info:
-                PreparedStatement statement = connection
+                statement = connection
                         .prepareStatement("SELECT * FROM current Where ticker = ?");
                 statement.setString(1, key);
-                ResultSet rs = statement.executeQuery();
+                rs = statement.executeQuery();
                 if (! rs.next()) {
                 	Logger.debug("fuck");
                     return;
@@ -91,6 +93,11 @@ public class CompanyDB {
             }
             catch(Exception e){
             	Logger.debug("Couldnt connect");
+            }
+            finally {
+                if (rs != null) try {rs.close();} catch(SQLException ignore){}
+                if (statement != null) try {statement.close();} catch(SQLException ignore){}
+                if (connection != null) try {connection.close();} catch(SQLException ignore){}
             }
         }
     }

@@ -27,7 +27,7 @@ public class Application extends Controller {
     
     public static Result viewCompare() {
 //        String[] results = new String[]{"Amazon", "Google", "Microsoft"};
-        CurrentDB companyInfo = new CurrentDB("AMZN");
+        CurrentDB companyInfo = new CurrentDB("close","AMZN", "GOOGL");
         List<List<Object>> financialData = companyInfo.getGraphData();
         //String jsonData = Json.toJson(financialData);
         //Html chartData = new Html.apply(Json.toJson(financialData));
