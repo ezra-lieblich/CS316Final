@@ -7,7 +7,7 @@ public class QueryObject {
 	
 	public QueryObject(String column, String operator, String value) {
 		this.column = column;
-		this.operator = operator;
-		this.value = value;
+		this.operator = operator.trim();
+		this.value = value.trim();
 	}
 }
