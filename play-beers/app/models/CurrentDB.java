@@ -78,8 +78,7 @@ public class CurrentDB {
             connection = DB.getConnection();
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM current Where ticker = ?");
             statement.setString(1, "AMZN");
-            ResultSet rs = statement.executeQuery();
-            Logger.debug(rs.getString("name"));
+            rs = statement.executeQuery();
 //            for (String company : companies) {
                 //statement.setString(1, company);
                 Logger.debug(statement.toString());
