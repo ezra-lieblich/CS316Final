@@ -53,7 +53,7 @@ public class Application extends Controller {
     	if (companyInfo.name == "")
     		return ok(error.render("Not a valid company named. Enter companies ticker symbol"));
     	
-    //	List<QuarterlyReportObject> companyQuarterlyReports = CompanyDB.	Diane: method I wrote isn't showing up when i type CompanyDB.
+    	List<QuarterlyReportObject> companyQuarterlyReports = CompanyDB
     	
         return ok(company.render(companyInfo));
     }    
