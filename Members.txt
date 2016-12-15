@@ -1,0 +1,9 @@
+Andrew Bihl – Sanitization of data, creation of database, deployment to Heroku; planning of project and database scheme. 
+
+Sean Hudson – Company-specific search function (front and backend) of web app; planning of project and database scheme.
+
+Ezra Lieblich – Comparison page, graph functionality of company finances, and current data for selected set of companies in web app; planning of project and database scheme.
+
+Diane Hadley – Web development– homepage, search page ui, design, and some backend for companies;  planning of project and database scheme.
+
+Will Rollins  – Data scraping and data update scripts; planning of project and database scheme.
