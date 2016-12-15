@@ -27,6 +27,7 @@ import models.QueryObject;
 import models.QuarterlyReportObject;
 
 public class Application extends Controller {
+	public static CurrentDB currentDB;
 
     public static Result index() throws SQLException {
 
@@ -161,12 +162,17 @@ public class Application extends Controller {
     	Logger.debug("size " + data.size());
 
     	String[] tickers = data.keySet().toArray(new String[data.keySet().size()]);
-    	CurrentDB result = new CurrentDB("close", tickers);
-        List<List<Object>> financialData = result.getGraphData();
-    	return ok(compare.render(result, Html.apply(Json.toJson(financialData).toString())));
+    	currentDB = new CurrentDB("close", tickers);
+        List<List<Object>> financialData = currentDB.getGraphData();
+    	return ok(compare.render(currentDB, Html.apply(Json.toJson(financialData).toString())));
     	//return ok(error.render("ARR"));
     }
 
+    
+    public static Result updateCompare(String key) throws SQLException {
+    	List<List<Object>> financialData = currentDB.getGraphData();
+    	return ok(compare.render(currentDB, Html.apply(Json.toJson(financialData).toString())));
+    }
 //    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 //<script type='text/javascript' 
 //src='@routes.Assets.at("javascripts/js/bootstrap.js")'></script>

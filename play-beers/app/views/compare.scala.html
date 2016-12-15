@@ -51,8 +51,8 @@ table-layout: fixed;
     <div style="float: left">
     	<ul>
     
-    	@for(x <- CurrentDB.getFields()){  
-    		<li>@x</li>
+    	@for(x <- CurrentDB.getOverTimeFields()){  
+    		<li><a href="@routes.Application.updateCompare(x)">@x</a></li>
     	}   
     	</ul>
     </div>
