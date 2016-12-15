@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import play.db.*;
+import play.Logger;
 
 
 public class CurrentDB {
@@ -30,17 +31,17 @@ public class CurrentDB {
             this.companyDataMap.put(company, new LinkedHashMap<String, Double>());
         }
 
-        // setUpTable(companies);
+        setUpTable(companies);
 
-        this.companyDataMap.get("Amazon").put("stockPrice", 300.0);
-        this.companyDataMap.get("Google").put("stockPrice", 200.0);
-        this.companyDataMap.get("Microsoft").put("stockPrice", 100.0);
-        this.companyDataMap.get("Amazon").put("MCAP", 330.0);
-        this.companyDataMap.get("Google").put("MCAP", 220.0);
-        this.companyDataMap.get("Microsoft").put("MCAP", 110.0);
-        fields.add("CompanyPrice");
-        fields.add("StockPrice");
-        fields.add("MCAP");
+//        this.companyDataMap.get("Amazon").put("stockPrice", 300.0);
+//        this.companyDataMap.get("Google").put("stockPrice", 200.0);
+//        this.companyDataMap.get("Microsoft").put("stockPrice", 100.0);
+//        this.companyDataMap.get("Amazon").put("MCAP", 330.0);
+//        this.companyDataMap.get("Google").put("MCAP", 220.0);
+//        this.companyDataMap.get("Microsoft").put("MCAP", 110.0);
+//        fields.add("CompanyPrice");
+//        fields.add("StockPrice");
+//        fields.add("MCAP");
 //        Map<String, Double> agg = new LinkedHashMap<String, Double>();
 //        agg.put("stockPrice", 0.0);
 //        agg.put("MCAP", 0.0);
@@ -71,30 +72,41 @@ public class CurrentDB {
         return average;
     }
 
-    // public void setUpTable(String[] companies) {
-    // Connection connection = null;
-    // try {
-    // connection = DB.getConnection();
-    // PreparedStatement statement = connection
-    // .prepareStatement("SELECT * FROM ? WHERE company = ?");
-    // for(String company : companies) {
-    // String companyOverTimeData = company + "OverTimeData";
-    // statement.setString(1, company);
-    // ResultSet rs = statement.executeQuery();
-    // while (!rs.next()) {
-    // for (int i = 1; i< rs.getMetaData().getColumnCount(); i++) {
-    // String columnName = rs.getMetaData().getColumnName(i);
-    // Double value = rs.getDouble(i);
-    // this.companyDataMap.get(company).put(columnName, value);
-    // this.companyDataMap.get("Aggregate").put(columnName,
-    // this.companyDataMap.get("Aggregate").get(columnName)/this.companyDataMap.size());
-    // }
-    // }
-    // }
-    // }
-    // catch (Exception e) {
-    // }
-    // }
+    public void setUpTable (String[] companies) {
+        Connection connection = null;
+        try {
+            connection = DB.getConnection();
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM current Where ticker = ?");
+            statement.setString(1, "AMZN");
+            ResultSet rs = statement.executeQuery();
+            Logger.debug(rs.getString("name"));
+//            for (String company : companies) {
+                //statement.setString(1, company);
+                Logger.debug(statement.toString());
+                Logger.debug("HERE");
+                //ResultSet rs = statement.executeQuery();
+                Logger.debug(rs.getString("name"));
+                Logger.debug("HERE");
+                while (!rs.next()) {
+                    Logger.debug("blh");
+                    for (int i = 1; i < rs.getMetaData().getColumnCount(); i++) {
+                        String columnName = rs.getMetaData().getColumnName(i);
+                        Double value = rs.getDouble(i);
+                        Logger.debug(columnName);
+                        this.companyDataMap.get("AMZN").put(columnName, value);
+//                        this.companyDataMap.get("Aggregate").put(columnName,
+//                                                                 this.companyDataMap
+//                                                                         .get("Aggregate")
+//                                                                         .get(columnName) /
+//                                                                             this.companyDataMap
+//                                                                                     .size());
+                    }
+                }
+            }
+        //}
+        catch (Exception e) {
+        }
+    }
 
     public Map<String, Map<String, Double>> getCompanyInfo () {
         return companyDataMap;
