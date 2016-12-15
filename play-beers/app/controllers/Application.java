@@ -47,7 +47,7 @@ public class Application extends Controller {
         List<List<Object>> financialData = companyInfo.getGraphData();
         //String jsonData = Json.toJson(financialData);
         //Html chartData = new Html.apply(Json.toJson(financialData));
-        return ok(compare.render(companyInfo, Html.apply(Json.toJson(financialData).toString())));
+        return ok(compare.render(companyInfo, Html.apply(Json.toJson(financialData).toString()), Html.apply(Json.toJson("close").toString())));
     }
     
 
@@ -164,14 +164,14 @@ public class Application extends Controller {
     	String[] tickers = data.keySet().toArray(new String[data.keySet().size()]);
     	currentDB = new CurrentDB("close", tickers);
         List<List<Object>> financialData = currentDB.getGraphData();
-    	return ok(compare.render(currentDB, Html.apply(Json.toJson(financialData).toString())));
+    	return ok(compare.render(currentDB, Html.apply(Json.toJson(financialData).toString()), Html.apply(Json.toJson("close").toString())));
     	//return ok(error.render("ARR"));
     }
 
     
     public static Result updateCompare(String key) throws SQLException {
     	List<List<Object>> financialData = currentDB.getGraphData();
-    	return ok(compare.render(currentDB, Html.apply(Json.toJson(financialData).toString())));
+    	return ok(compare.render(currentDB, Html.apply(Json.toJson(financialData).toString()), Html.apply(Json.toJson("close").toString())));
     }
 //    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 //<script type='text/javascript' 

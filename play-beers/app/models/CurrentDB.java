@@ -265,7 +265,7 @@ public class CurrentDB {
             year = calendar.getTime().getYear();
             Date date = new Date(year, month, day);
             if (calendar.getTime().getDay() != 0 &&
-                calendar.getTime().getDate() != 1) {
+                calendar.getTime().getDay() != 6) {
                 List<Object> dateList = new ArrayList<Object>();
                 dateList.add(date);
                 graphData.add(dateList);
@@ -273,16 +273,21 @@ public class CurrentDB {
             }
             int monthEnum = Calendar.DAY_OF_MONTH;
             calendar.add(monthEnum, -1);
-
         }
         int index = 0;
         for(Entry<String, List<Double>> company : overTimeData.entrySet()) {
+//            int rowCount = 0;
             for(Double value : company.getValue()) {
                graphData.get(index).add(value);
                index++;
+//               rowCount++;
                if(index >= 10) {
                    break;
                }
+//               int amount = 10 - rowCount;
+//               for(int i = 0; i < amount; i++) {
+//                   graphData.get(amount).add(0);
+//               }
             }
             index = 0;
         }
@@ -312,5 +317,10 @@ public class CurrentDB {
     public Collection<String> getOverTimeFields () {
         return overTimeFields;
     }
+
+    public String getGraphKey () {
+        return graphKey;
+    }
+    
 }
 

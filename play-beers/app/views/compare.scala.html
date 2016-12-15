@@ -1,4 +1,4 @@
-@(CurrentDB: models.CurrentDB)(chartData: Html)
+@(CurrentDB: models.CurrentDB)(chartData: Html)(key: Html)
 @mapData = @{CurrentDB.getCompanyInfo}
 
 @main("Compare") { } {
@@ -28,7 +28,7 @@ table-layout: fixed;
         var data = google.visualization.arrayToDataTable(@chartData);
 
         var options = {
-          title: 'Company Performance',
+          title: @key,
           curveType: 'function',
           legend: { position: 'bottom' }
         };
