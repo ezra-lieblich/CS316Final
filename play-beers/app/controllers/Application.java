@@ -29,7 +29,15 @@ import models.QuarterlyReportObject;
 public class Application extends Controller {
 
     public static Result index() throws SQLException {
-        return ok(index.render());
+
+    	List<String> names = new ArrayList<String>(
+    			Arrays.asList("Sean Hudson",
+    							"Andrew Bihl",
+    							"Will Rollins",
+    							"Ezra Lieblich",
+    							"Diane Hadley"));
+        return ok(index.render(names));
+
     }
     
     public static Result viewCompare() {
@@ -56,7 +64,8 @@ public class Application extends Controller {
     	if (companyInfo.name == "")
     		return ok(error.render("Not a valid company named. Enter companies ticker symbol"));
     	List<QuarterlyReportObject> quarterlyReports = CompanyDB.getCompanyQuarterlyReports(key);
-    	Logger.debug("DIANE");
+    	
+    	
         return ok(company.render(companyInfo, quarterlyReports));
     }    
 
