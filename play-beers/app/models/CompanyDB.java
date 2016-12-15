@@ -51,6 +51,7 @@ public class CompanyDB {
         
     
         private void setupCompanyInfo(String key) throws SQLException{
+        	key = key.toUpperCase();
             Connection connection = null;
             PreparedStatement statement = null;
             ResultSet rs = null;

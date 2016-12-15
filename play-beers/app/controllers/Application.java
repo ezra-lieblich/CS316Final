@@ -151,9 +151,11 @@ public class Application extends Controller {
         Map<String, String> data = Form.form().bindFromRequest().data();
     	Logger.debug("size " + data.size());
 
-    	List<String> companies = new ArrayList<String>(data.keySet());
-    	//return ok("price", compare.render(companies));
-    	return ok(error.render("ARR"));
+    	String[] tickers = data.keySet().toArray(new String[data.keySet().size()]);
+    	CurrentDB result = new CurrentDB("close", tickers);
+        List<List<Object>> financialData = result.getGraphData();
+    	return ok(compare.render(result, Html.apply(Json.toJson(financialData).toString())));
+    	//return ok(error.render("ARR"));
     }
 
 //    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
