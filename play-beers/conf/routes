@@ -5,13 +5,13 @@
 # ~~~~
 
 GET     /                           controllers.Application.index()
-GET	/drinker/:name              controllers.Application.viewDrinker(name:String)
-GET     /edit-drinker/:name         controllers.Application.editDrinker(name:String)
+#GET	/drinker/:name              controllers.Application.viewDrinker(name:String)
+#GET     /edit-drinker/:name         controllers.Application.editDrinker(name:String)
+GET /company/:name					controllers.Application.viewCompany(name:String)
 GET /search				controllers.Application.viewSearch()
 POST /query							controllers.Application.interpretQuery()
 GET /compare				controllers.Application.viewCompare()
 POST /setup-compare			controllers.Application.setupCompare()
-POST    /update-drinker             controllers.Application.updateDrinker()
 GET /companies 						controllers.Application.searchTab()
 GET 	/companies/:test                 controllers.Application.viewCompany(test:String)
 POST 	/companies/                  controllers.Application.searchCompanies()
