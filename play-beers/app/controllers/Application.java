@@ -58,6 +58,9 @@ public class Application extends Controller {
     	
     	//List<QuarterlyReportObject> companyQuarterlyReports = CompanyDB.
     	
+    	List<QuarterlyReportObject> quarterlyReports = CompanyDB.getCompanyQuarterlyReports(key);
+//    	Logger.debug("DIANE");
+//        return ok(company.render(companyInfo, quarterlyReports));
         return ok(company.render(companyInfo));
     }    
 
