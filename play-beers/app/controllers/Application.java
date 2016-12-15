@@ -46,7 +46,7 @@ public class Application extends Controller {
         List<List<Object>> financialData = companyInfo.getGraphData();
         //String jsonData = Json.toJson(financialData);
         //Html chartData = new Html.apply(Json.toJson(financialData));
-        return ok(compare.render(companyInfo, Html.apply(Json.toJson(financialData).toString())));
+        return ok(compare.render(companyInfo, Html.apply(Json.toJson(financialData).toString()), Html.apply(Json.toJson("close").toString())));
     }
     
 
