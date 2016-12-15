@@ -1,6 +1,7 @@
 package models;
 
 import play.db.*;
+import play.Logger;
 
 import java.lang.Exception;
 import java.lang.String;
@@ -8,6 +9,7 @@ import java.sql.*;
 import javax.sql.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,11 +34,12 @@ public class CompanyDB {
         public double marketCap;
         public double open;
         public double avgDailyVolume;
-        public Map<String, Double> companyData;
+        public Map<String, Float> companyData;
 
 
         public CompanyInfo(String key) {
-            companyData = new HashMap<String, Double>();
+        	ticker = key;
+            companyData = new HashMap<String, Float>();
             try {
                 setupCompanyInfo(key);
 
@@ -46,57 +49,48 @@ public class CompanyDB {
         }
 
         public CompanyInfo(String key, String test) {
-            companyData = new HashMap<String, Double>();
+            companyData = new HashMap<String, Float>();
             name = key;
             ticker = "AAPL";
-            companyData.put("test field", 392.0);
-            companyData.put("word", 37.0);
+//            companyData.put("test field", 392.0);
+//            companyData.put("word", 37.0);
         }
 
 
         private void setupCompanyInfo(String key) throws SQLException{
             Connection connection = null;
+            String[] stringCols = new String[]{"name","ticker","exchange"};
             try {
+            	Logger.debug("connecting to database");
                 connection = DB.getConnection();
                 // retrieve basic info:
                 PreparedStatement statement = connection
-                        .prepareStatement("SELECT * FROM current WHERE ticker = ?");
+                        .prepareStatement("SELECT * FROM current Where ticker = ?");
                 statement.setString(1, key);
                 ResultSet rs = statement.executeQuery();
                 if (! rs.next()) {
+                	Logger.debug("fuck");
                     return;
                 }
+                name = rs.getString("name");
                 int size = rs.getMetaData().getColumnCount();
-                for (int i = 0; i < size; i++) {
+                Logger.debug("size={}", size);
+                for (int i = 0+1; i < size+1; i++) {
                 	String name = rs.getMetaData().getColumnName(i);
-                	companyData.put(name, rs.getDouble(name));
+                	if (!Arrays.asList(stringCols).contains(name)){
+                		Logger.debug("column={}", name);
+                		companyData.put(name, rs.getFloat(name));
+                	}
                 }
-//                ticker = rs.getString("ticker");
-//                companyData.put("Price Per Earnings", rs.getDouble("pricePerEarnings"));
-//                companyData.put("Year High", rs.getDouble("yearHigh"));
-//                name = rs.getString("name");
-//                companyData.put("Price Sales", rs.getDouble("priceSales"));
-//                companyData.put("Price", rs.getDouble("price"));
-//                companyData.put("Exhange", rs.getDouble("exchange"));
-//                companyData.put("Dividend Yield", rs.getDouble("dividendYield"));
-//                companyData.put("Earnings Per Share",rs.getDouble("earningsPerShare"));
-//                companyData.put("Volume", rs.getDouble("volume"));
-//                companyData.put("Daily High", rs.getDouble("dailyHigh"));
-//                companyData.put("50 Day Moving Average", rs.getDouble("fiftyDayMovingAverage"));
-//                companyData.put("200 Day Moving Average", rs.getDouble("200DayMovingAverage"));
-//                companyData.put("Divedend Per Share", rs.getDouble("divedendPerShare"));
-//                companyData.put("Market Cap", rs.getDouble("marketCap"));
-//                companyData.put("Open", rs.getDouble("open"));
-//                companyData.put("Average Daily Volume", rs.getDouble("avgDailyVolume"));
+                Logger.debug("size={}", companyData.size());
+
+                
+
                 rs.close();
                 statement.close();
-            } finally {
-                if (connection != null) {
-                    try {
-                        connection.close();
-                    } catch (Exception e) {
-                    }
-                }
+            }
+            catch(Exception e){
+            	Logger.debug("Couldnt connect");
             }
         }
     }
@@ -140,5 +134,60 @@ public class CompanyDB {
     	columns.add("fun");
         return columns;
     }
+    
+    //list of names or Object with other information
+    public static List<String> queryResults(List<QueryObject> queries) {
+    	List<String> names = new ArrayList<String>();
+//      Connection connection = null;
+//      try {
+//          connection = DB.getConnection();
+//          String preparedText = getPreparedStatement(queries);
+//          PreparedStatement statement = connection
+//                  .prepareStatement(preparedText);
+//          ResultSet rs = statement.executeQuery();
+//          while(rs.next()) {
+//        	  names.add(rs.getString(1));
+//          }
+//          statement.close();
+//      } finally {
+//          if (connection != null) {
+//              try {
+//                  connection.close();
+//              } catch (Exception e) {
+//              }
+//          }
+//      }
+      return names;
+    }
+    
+    private static String getPreparedStatement(List<QueryObject> queries) {
+    	String conditions = "Select name FROM current Where ";
+    	for (QueryObject query : queries) {
+    		if (validateQuery(query))
+    			conditions += query.column + query.operator + query.value;
+    	}
+    	return conditions;
+    }
+
+	private static boolean validateQuery(QueryObject query) {
+		
+		return validOperator(query.operator) && validValue(query.value);
+	}
+
+	private static boolean validValue(String value) {
+		try{
+			Double.parseDouble(value);
+		}
+		catch (NumberFormatException e) {
+			return false;
+		}
+		return true;
+	}
+
+	private static boolean validOperator(String operator) {
+		String[] operators = new String[]{"=", "!=", ">", "<", ">=", "<-"};
+		return Arrays.asList(operators).contains(operator);
+	}
+
     
 }
