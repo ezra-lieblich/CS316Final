@@ -40,6 +40,8 @@ public class Application extends Controller {
 
     public static Result viewCompany(String key) throws SQLException {
     	CompanyDB.CompanyInfo companyInfo = CompanyDB.getCompanyInfo(key);
+    	if (companyInfo.name == "")
+    		return ok(error.render("Not a valid company named. Enter companies ticker symbol"));
         return ok(company.render(companyInfo));
     }    
 
