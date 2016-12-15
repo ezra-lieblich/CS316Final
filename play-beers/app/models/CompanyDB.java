@@ -175,7 +175,7 @@ public class CompanyDB {
 	}
 
 	private static boolean validOperator(String operator) {
-		String[] operators = new String[]{"=", "!=", ">", "<", ">=", "<-"};
+		String[] operators = new String[]{"=", "!=", ">", "<", ">=", "<="};
 		return Arrays.asList(operators).contains(operator);
 	}
 
@@ -184,6 +184,7 @@ public class CompanyDB {
     	Connection connection = null;
     	try {
             connection = DB.getConnection();                
+           
             PreparedStatement statement = connection
                     .prepareStatement("SELECT name, date, path "
                     		+ "FROM current "
@@ -210,7 +211,6 @@ public class CompanyDB {
             }
             rs.close();
             statement.close();
-            Logger.debug("DIANE");
             return quarterlyReportList;            
     	}
         catch(Exception e){

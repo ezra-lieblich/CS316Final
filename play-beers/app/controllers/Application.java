@@ -29,7 +29,15 @@ import models.QuarterlyReportObject;
 public class Application extends Controller {
 
     public static Result index() throws SQLException {
-        return ok(index.render());
+
+    	List<String> names = new ArrayList<String>(
+    			Arrays.asList("Sean Hudson",
+    							"Andrew Bihl",
+    							"Will Rollins",
+    							"Ezra Lieblich",
+    							"Diane Hadley"));
+        return ok(index.render(names));
+
     }
     
     public static Result viewCompare() {
@@ -62,6 +70,7 @@ public class Application extends Controller {
 //    	Logger.debug("DIANE");
 //        return ok(company.render(companyInfo, quarterlyReports));
         return ok(company.render(companyInfo));
+
     }    
 
    
