@@ -1,0 +1,134 @@
+	CS316
+				
+Project Demo. At the end of the semester, you will need to present a working demo of your system. Instructions on how to sign up for the demo will be given during the second to last week of the class. Prior to your demo, submit the following electronically under “proj-final”:
+					 							
+A final project report, including a brief description of your application, the E/R diagram for your database design, assumptions that you are making about the data being modeled, and the list of database tables with descriptions.	
+
+Our application allows the user to search and compare companies based on a company’s financials. Under the search tab, the user can choose financial fields to search by, operators, and a values, and all companies for which that operation applies will appear. For example, the user could select “Earnings per share”, input the operator “>”, input a value, and see all companies whose earnings per share are greater than that value. Under the company tab, the user can search a company by its ticker and the page will display that company’s financials. Under the compare tab, the user can visually compare two companies’ financials. 
+
+When we started our project we assumed that the company data would be uniform, like that the values in the conm (company name) column of one relation would be the same as the values in the name column of another relation. However, we found that the different formating of the values made it difficult to join those two relations on the company name. For example, in one relation Amazon was listed as “Amazon.com Inc.” while in another it was listed as “AMAZON COM INC”. We also made the assumption that all companies would have distinctly unique names. This turned out not to be true, making it difficult to use “LIKE” in our queries. We also assumed that all companies would have all the data we were looking for.
+
+One current assumption we are making is that the volume of shares traded in a single day will be less than 2^31, which we did in order to save space. However, this number could be surpassed in the future. 
+
+Tables:
+	Current: The current daily listing of financial info for the company.
+	Past: Daily listing for the company from a previous date.
+	Quarterly: Listing of quarterly report for a company from a given date.
+
+			 							
+A text file members.txt, listing the members of your team, and for each member, a description of effort made by this member throughout the semester, highlighting the effort since the last milestone.	
+
+DONE
+				 							
+A .zip or .tar.gz archive of all your source code. The source code directory should also contain a
+						
+README file describing how to set up your servers and database, and how to compile and deploy your application.  
+
+Table schemes are described in 316db_Descriptions.rtf. The database is a Postgres relational database serviced through Heroku and hosted on AWS. 
+I initialized the a local postgres database and used the following queries to create tables and occupy them:
+
+CREATE TABLE current(
+yearLow float,
+pricePerEarnings float,
+yearHigh float,
+priceEarningsGrowthRatio float,
+name varchar,
+dailyLow float,
+priceSales float,
+ticker varchar(10),
+price float,
+exchange varchar,
+dividendYield float,
+earningsPerShare float,
+volume int,
+dailyHigh float,
+fiftyDayMovingAverage float,
+twoHundredDayMovingAverage float,
+marketCap bigint,
+divedendPerShare float,
+open float,
+avgDailyVolume int,
+
+PRIMARY KEY (ticker)
+);
+
+
+COPY current(yearLow, pricePerEarnings, yearHigh, priceEarningsGrowthRatio, name, dailyLow,	 priceSales, ticker, price, exchange, dividendYield, earningsPerShare, volume, dailyHigh, fiftyDayMovingAverage, twoHundredDayMovingAverage, marketCap, divedendPerShare, open, avgDailyVolume) 
+FROM '/Users/andrewbihl/Desktop/current.csv' DELIMITER ',' CSV HEADER;
+
+–––––––––––––––––––––––––––––––––––––––––––––––––––
+
+CREATE TABLE past(
+Volume int,
+Symbol varchar(10),
+Adj_Close float,
+High float,	
+Low float,
+Date date,
+Close float,
+Open float,
+pricePerEarnings float,
+priceEarningsGrowthRatio float,
+priceSales float,
+dividendYield float,
+earningsPerShare float,
+fiftyDayMovingAverage float,
+twoHundredDayMovingAverage float,
+marketCap bigint,
+divedendPerShare float,
+avgDailyVolume int,
+
+PRIMARY KEY (Symbol, date)
+);
+
+
+COPY past(Volume,	Symbol,	Adj_Close,	High,	Low,	Date,	Close,	Open, pricePerEarnings,	priceEarningsGrowthRatio,	priceSales,	dividendYield,	earningsPerShare,	fiftyDayMovingAverage,	twoHundredDayMovingAverage,	marketCap,	divedendPerShare, avgDailyVolume)
+FROM '/Users/andrewbihl/Desktop/past.csv' DELIMITER ',' CSV HEADER;
+
+–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+CREATE TABLE quarterly(
+cik TEXT,
+conm TEXT,
+type TEXT,
+date TEXT,
+path TEXT,
+PRIMARY KEY (path),
+ticker varchar
+);
+
+
+COPY quarterly(cik, conm,type,date,path) FROM '/Users/andrewbihl/Downloads/reports.csv' DELIMITER ',' CSV HEADER;
+
+
+CONNECT
+heroku pg:psql -a sec-data
+
+LOGS
+heroku logs --tail --ps heroku-postgres
+
+IMPORT FROM CSV 
+psql `heroku config:get DATABASE_URL -a sec-data`?ssl=true -c "\copy past FROM '~/Desktop/updatedData.csv' WITH CSV;"
+
+I then pushed the database up to the Heroku-hosted app.
+
+The database is accessed with the following access credentials for TLS connection:
+Host
+ec2-107-20-195-181.compute-1.amazonaws.com
+Database
+d5f790u0pfiql
+User
+xoondtisxkyxdf
+Port
+5432
+Password
+4dc7d512c8054abc040dccc3f92f871e0f3cd49c0d5e43b4c7f89bb6eb911e98
+URI
+postgres://xoondtisxkyxdf:4dc7d512c8054abc040dccc3f92f871e0f3cd49c0d5e43b4c7f89bb6eb911e98@ec2-107-20-195-181.compute-1.amazonaws.com:5432/d5f790u0pfiql
+
+To Deploy our web application download from our github page or fork our repository at https://github.com/ezra-lieblich/CS316Final. Once downloaded initialize the play framework and go into the play-beers folder. Note that you need the play framework downloaded to run. Once in that folder, run sudo ./activator to run on your local host. We also have the capability to hook up our web app to Heroku or Amazon AWS.
+		 				
+
+The database is a Postgres relational database deployed through Heroku. It comprises 3 tables: current, past, and quarterly. Table schemes are described in 316db_Descriptions.rtf. 
+
+
+
