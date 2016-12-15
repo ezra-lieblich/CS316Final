@@ -309,7 +309,7 @@ public class CurrentDB {
         return graphData;
     }
 
-    public Set<String> getOverTimeFields () {
+    public Collection<String> getOverTimeFields () {
         return overTimeFields;
     }
 }
