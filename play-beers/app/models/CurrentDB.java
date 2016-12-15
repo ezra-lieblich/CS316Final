@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -101,5 +102,13 @@ public class CurrentDB {
 
     public Collection<String> getFields() {
         return fields;
+    }
+    
+    public List<List<Object>> getGraphData() {
+        List<List<Object>> graphData = new ArrayList<List<Object>>();
+        graphData.add(new ArrayList<Object>(Arrays.asList("Year", "Sales", "Expenses"))); //new Object[][]{new Object[]{"Year", "Sales", "Expenses"}, new Object[]{"2004",  1000, 400}, new Object[]{"2005",  1170, 460}};
+        graphData.add(new ArrayList<Object>(Arrays.asList("2004",  1000, 400)));
+        graphData.add(new ArrayList<Object>(Arrays.asList("2005",  1170, 460)));
+        return graphData;
     }
 }

@@ -2,14 +2,17 @@ package controllers;
 
 import java.sql.SQLException;
 import java.util.Map;
+import javax.swing.text.html.HTML;
 import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.List;
 
 import play.*;
 import play.mvc.*;
 import play.data.*;
-
+import play.libs.*;
+import play.twirl.api.Html;
 import views.html.*;
 
 import models.BeerDB;
@@ -25,7 +28,10 @@ public class Application extends Controller {
     public static Result viewCompare() {
 //        String[] results = new String[]{"Amazon", "Google", "Microsoft"};
         CurrentDB companyInfo = new CurrentDB("Amazon", "Google", "Microsoft");
-        return ok(compare.render(companyInfo));
+        List<List<Object>> financialData = companyInfo.getGraphData();
+        //String jsonData = Json.toJson(financialData);
+        //Html chartData = new Html.apply(Json.toJson(financialData));
+        return ok(compare.render(companyInfo, Html.apply(Json.toJson(financialData).toString())));
     }
     
 
@@ -59,13 +65,16 @@ public class Application extends Controller {
     }
     
     public static Result interpretQuery() throws SQLException{
+    	//Form.form().bindFromRequest().data());
+    	
+    	
+    	
     	
     	return ok(error.render("Bad Request"));
     }
     
     public static Result viewSearch() throws SQLException {
         List<String> testList = CompanyDB.getColumnNames();
-        testList.add("hello");
     	return ok(search.render(testList));
     }
 
@@ -118,7 +127,6 @@ public class Application extends Controller {
     public static Result searchTab() throws SQLException {
     	return ok(searchbartab.render("Enter a Company"));
     }
-
 
 //    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 //<script type='text/javascript' 
