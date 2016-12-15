@@ -27,6 +27,7 @@ import models.QueryObject;
 import models.QuarterlyReportObject;
 
 public class Application extends Controller {
+	public static CurrentDB currentDB;
 
     public static Result index() throws SQLException {
 
@@ -63,10 +64,14 @@ public class Application extends Controller {
     	CompanyDB.CompanyInfo companyInfo = CompanyDB.getCompanyInfo(key);
     	if (companyInfo.name == "")
     		return ok(error.render("Not a valid company named. Enter companies ticker symbol"));
+    	
+    	//List<QuarterlyReportObject> companyQuarterlyReports = CompanyDB.
+    	
     	List<QuarterlyReportObject> quarterlyReports = CompanyDB.getCompanyQuarterlyReports(key);
-    	
-    	
-        return ok(company.render(companyInfo, quarterlyReports));
+//    	Logger.debug("DIANE");
+//        return ok(company.render(companyInfo, quarterlyReports));
+        return ok(company.render(companyInfo));
+
     }    
 
    
@@ -156,11 +161,18 @@ public class Application extends Controller {
         Map<String, String> data = Form.form().bindFromRequest().data();
     	Logger.debug("size " + data.size());
 
-    	List<String> companies = new ArrayList<String>(data.keySet());
-    	//return ok("price", compare.render(companies));
-    	return ok(error.render("ARR"));
+    	String[] tickers = data.keySet().toArray(new String[data.keySet().size()]);
+    	currentDB = new CurrentDB("close", tickers);
+        List<List<Object>> financialData = currentDB.getGraphData();
+    	return ok(compare.render(currentDB, Html.apply(Json.toJson(financialData).toString())));
+    	//return ok(error.render("ARR"));
     }
 
+    
+    public static Result updateCompare(String key) throws SQLException {
+    	List<List<Object>> financialData = currentDB.getGraphData();
+    	return ok(compare.render(currentDB, Html.apply(Json.toJson(financialData).toString())));
+    }
 //    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 //<script type='text/javascript' 
 //src='@routes.Assets.at("javascripts/js/bootstrap.js")'></script>
