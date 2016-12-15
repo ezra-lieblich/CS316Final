@@ -29,6 +29,7 @@ public class CurrentDB {
     public Map<String, Map<String, Double>> companyDataMap;
     public Map<String, List<Double>> overTimeData;
     public Set<String> fields;
+    public Set<String> overTimeFields;
     public String graphKey;
 
     public CurrentDB (String graphKey, String ... companies) {
@@ -39,6 +40,7 @@ public class CurrentDB {
         this.companyDataMap = new LinkedHashMap<String, Map<String, Double>>();
         this.overTimeData = new LinkedHashMap<String, List<Double>>();
         this.fields = new LinkedHashSet<String>();
+        this.overTimeFields = new LinkedHashSet<String>();
         fields.add("Ticker");
         // companyList.forEach(a -> this.companies.put(a, new LinkedHashMap<String, Double>()) );
         for (String company : companies) {
@@ -54,8 +56,18 @@ public class CurrentDB {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
+        
         try {
             connection = DB.getConnection();
+            statement = connection.prepareStatement("SELECT * FROM past WHERE symbol = 'AMZN'");
+            resultSet = statement.executeQuery();
+            int colNum = resultSet.getMetaData().getColumnCount();
+            if(resultSet.next()) {
+                for (int i = 1; i < colNum+1; i++) {
+                    Logger.debug(resultSet.getMetaData().getColumnName(i));
+                    overTimeFields.add(resultSet.getMetaData().getColumnName(i));
+                }
+            }
             for (String company : companies) {
                 overTimeData.put(company, new ArrayList<Double>());
                 String queryString = "SELECT symbol, date, " + key + " FROM past Where symbol = ? ORDER BY date DESC";
@@ -246,16 +258,22 @@ public class CurrentDB {
         for(String company : overTimeData.keySet()) {
             header.add(company);
         }
-        for(int i = 0; i < 10; i++) {
+        int count = 0;
+        for(int i = 0; count < 10; i++) {
             month = calendar.getTime().getMonth();
             day = calendar.getTime().getDate();
             year = calendar.getTime().getYear();
-            Date date = new Date(year, month-1, day);
-            List<Object> dateList = new ArrayList<Object>();
-            dateList.add(date);
-            graphData.add(dateList);
+            Date date = new Date(year, month, day);
+            if (calendar.getTime().getDay() != 0 &&
+                calendar.getTime().getDate() != 1) {
+                List<Object> dateList = new ArrayList<Object>();
+                dateList.add(date);
+                graphData.add(dateList);
+                count++;
+            }
             int monthEnum = Calendar.DAY_OF_MONTH;
             calendar.add(monthEnum, -1);
+
         }
         int index = 0;
         for(Entry<String, List<Double>> company : overTimeData.entrySet()) {
@@ -269,6 +287,7 @@ public class CurrentDB {
             index = 0;
         }
         Collections.reverse(graphData);
+        Collections.reverse(header);
         graphData.add(0, header);
 
 
@@ -288,6 +307,10 @@ public class CurrentDB {
         }
         
         return graphData;
+    }
+
+    public Set<String> getOverTimeFields () {
+        return overTimeFields;
     }
 }
 
