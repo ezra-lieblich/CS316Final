@@ -1,4 +1,6 @@
+
 @(names: List[String])
+
 
 @main("") { } {
   
@@ -8,10 +10,8 @@
   
   <p>Project Creators :
     <ul>
-      @for(name <- names) {
-        
-          <li>@name</li>
-        
+      @for(name <- names) {      
+          <li>@name</li>        
       }
     </ul>
   </p>
