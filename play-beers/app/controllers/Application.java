@@ -55,10 +55,9 @@ public class Application extends Controller {
     	CompanyDB.CompanyInfo companyInfo = CompanyDB.getCompanyInfo(key);
     	if (companyInfo.name == "")
     		return ok(error.render("Not a valid company named. Enter companies ticker symbol"));
-    	
-    //	List<QuarterlyReportObject> companyQuarterlyReports = CompanyDB.	Diane: method I wrote isn't showing up when i type CompanyDB.
-    	
-        return ok(company.render(companyInfo));
+    	List<QuarterlyReportObject> quarterlyReports = CompanyDB.getCompanyQuarterlyReports(key);
+    	Logger.debug("DIANE");
+        return ok(company.render(companyInfo, quarterlyReports));
     }    
 
    

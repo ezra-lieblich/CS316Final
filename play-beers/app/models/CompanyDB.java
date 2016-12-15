@@ -49,45 +49,7 @@ public class CompanyDB {
             }
         }
         
-        public static List<QuarterlyReportObject> getCompanyQuarterlyReports(String key) throws SQLException{
-        	List<QuarterlyReportObject> quarterlyReportList = new ArrayList<QuarterlyReportObject>();
-        	Connection connection = null;
-        	try {
-                connection = DB.getConnection();
-                
-                PreparedStatement statement = connection
-                        .prepareStatement("SELECT * name, date, path "
-                        		+ "FROM current "
-                        		+ "FULL OUTER JOIN quaterlies "
-                        		+ "ON current.name == quarterlies.conm "
-                        		+ "WHERE current.name == key");
-                ResultSet rs = statement.executeQuery();
-                if (! rs.next()) {             	
-                    return quarterlyReportList;
-                }
-                
-                rs.last();
-                int numRows = rs.getRow();
-                rs.beforeFirst();
-                for (int i = 1; i < numRows + 1; i++){
-                	rs.absolute(i);
-                	QuarterlyReportObject quarterlyReport = new QuarterlyReportObject(
-                			rs.getString("name"), 
-                			rs.getString("date"),
-                			rs.getString("path"));
-                	quarterlyReportList.add(quarterlyReport);
-                }
-                return quarterlyReportList;
-                
-        	}
-            catch(Exception e){
-            	Logger.debug("Couldnt connect");
-            }
-        	
-        	return null;
-        	
-        }
-
+    
         private void setupCompanyInfo(String key) throws SQLException{
             Connection connection = null;
             String[] stringCols = new String[]{"name","ticker","exchange"};
@@ -208,6 +170,48 @@ public class CompanyDB {
 		String[] operators = new String[]{"=", "!=", ">", "<", ">=", "<-"};
 		return Arrays.asList(operators).contains(operator);
 	}
+
+	public static List<QuarterlyReportObject> getCompanyQuarterlyReports(String key) throws SQLException{
+		List<QuarterlyReportObject> quarterlyReportList = new ArrayList<QuarterlyReportObject>();
+    	Connection connection = null;
+    	try {
+            connection = DB.getConnection();                
+            PreparedStatement statement = connection
+                    .prepareStatement("SELECT name, date, path "
+                    		+ "FROM current "
+                    		+ "FULL OUTER JOIN quarterly "
+                    		+ "ON current.name = quarterly.conm "
+                    		+ "WHERE current.name = ? "
+                    		+ "AND quarterly.type = ?");
+            statement.setString(1, key);
+            statement.setString(2, "10-Q");
+            ResultSet rs = statement.executeQuery();
+            if (! rs.next()) {             	
+                return quarterlyReportList;
+            }            
+            rs.last();
+            int numRows = rs.getRow();
+            rs.beforeFirst();
+            for (int i = 1; i < numRows + 1; i++){
+            	rs.absolute(i);
+            	QuarterlyReportObject quarterlyReport = new QuarterlyReportObject(
+            			rs.getString("name"), 
+            			rs.getString("date"),
+            			rs.getString("path"));
+            	quarterlyReportList.add(quarterlyReport);
+            }
+            rs.close();
+            statement.close();
+            Logger.debug("DIANE");
+            return quarterlyReportList;            
+    	}
+        catch(Exception e){
+        	Logger.debug("Couldnt connect");
+        }
+    	return null;
+	}
+
+	
 
     
 }

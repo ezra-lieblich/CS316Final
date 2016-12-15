@@ -1,4 +1,4 @@
-@(companyInfo: models.CompanyDB.CompanyInfo)
+@(companyInfo: models.CompanyDB.CompanyInfo)(quarterlyReports: List[QuarterlyReportObject])
 
 @main(companyInfo.name) { } {
    
@@ -19,10 +19,17 @@
             <td>@value</td>
          </tr>
         }
+        @for(x <- quarterlyReports) {
+         <tr>
+            <td>@x.date</td>
+            <td>@x.path</td>
+         </tr>
+       	}
+        
          
       </tbody>
       
    </table>
-
+   
     @searchform("Search For Another Company")
 }
