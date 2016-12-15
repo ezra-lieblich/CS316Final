@@ -12,14 +12,12 @@
 	   
    		<form method="post" action="@routes.Application.interpretQuery()" id="searchform">
    		@for(x <- fieldList){
-   			<fieldset>
-	      	<tr>  	
-	      		<td align="left"><input type="checkbox" name="field" />@x</td>      	
+   			
+	      	 	
+	      		<td align="left"><input type="checkbox" name="field" autocomplete="off" />@x</td>      	
 	     		<td align="left"><input type="text" name="operator" /></td>	     	
 	      		<td align="left"><input type="text" name="value" /></td>	      	
-	      	</tr>
 	      	
-	      	</fieldset>   
 	      	
 	   	}
 	   	<td align="right"><input type="submit" form="searchform" value="Search" /></td>	

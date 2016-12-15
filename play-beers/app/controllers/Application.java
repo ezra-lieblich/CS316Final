@@ -3,6 +3,8 @@ package controllers;
 import java.sql.SQLException;
 import java.util.Map;
 import javax.swing.text.html.HTML;
+
+
 import java.util.ArrayList;
 
 import java.util.Arrays;
@@ -11,6 +13,7 @@ import java.util.List;
 import play.*;
 import play.mvc.*;
 import play.data.*;
+import play.data.Form.*;
 import play.libs.*;
 import play.twirl.api.Html;
 import views.html.*;
@@ -18,6 +21,7 @@ import views.html.*;
 import models.BeerDB;
 import models.CompanyDB;
 import models.CurrentDB;
+import models.QuarterlyReportObject;
 
 public class Application extends Controller {
 
@@ -48,6 +52,9 @@ public class Application extends Controller {
     	CompanyDB.CompanyInfo companyInfo = CompanyDB.getCompanyInfo(key);
     	if (companyInfo.name == "")
     		return ok(error.render("Not a valid company named. Enter companies ticker symbol"));
+    	
+    //	List<QuarterlyReportObject> companyQuarterlyReports = CompanyDB.	Diane: method I wrote isn't showing up when i type CompanyDB.
+    	
         return ok(company.render(companyInfo));
     }    
 
@@ -65,9 +72,9 @@ public class Application extends Controller {
     }
     
     public static Result interpretQuery() throws SQLException{
-    	//Form.form().bindFromRequest().data());
+    	Logger.debug(Form.form().bindFromRequest().data().toString());
     	
-    	
+    	Logger.debug("fuck");
     	
     	
     	return ok(error.render("Bad Request"));
