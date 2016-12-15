@@ -116,33 +116,37 @@ public class CompanyDB {
     //list of names or Object with other information
     public static List<String> queryResults(List<QueryObject> queries) {
     	List<String> names = new ArrayList<String>();
-//      Connection connection = null;
-//      try {
-//          connection = DB.getConnection();
-//          String preparedText = getPreparedStatement(queries);
-//          PreparedStatement statement = connection
-//                  .prepareStatement(preparedText);
-//          ResultSet rs = statement.executeQuery();
-//          while(rs.next()) {
-//        	  names.add(rs.getString(1));
-//          }
-//          statement.close();
-//      } finally {
-//          if (connection != null) {
-//              try {
-//                  connection.close();
-//              } catch (Exception e) {
-//              }
-//          }
-//      }
+      Connection connection = null;
+      try {
+          connection = DB.getConnection();
+          String preparedText = getPreparedStatement(queries);
+          Logger.debug(preparedText);
+          PreparedStatement statement = connection
+                  .prepareStatement(preparedText);
+          ResultSet rs = statement.executeQuery();
+          while(rs.next()) {
+        	  names.add(rs.getString(1));
+          }
+          statement.close();
+      } catch (Exception e) {
+    	  Logger.debug(e.toString());
+      }
       return names;
     }
     
     private static String getPreparedStatement(List<QueryObject> queries) {
-    	String conditions = "Select name FROM current Where ";
+    	String conditions = "Select ticker FROM current Where ";
+    	boolean first = true;
     	for (QueryObject query : queries) {
-    		if (validateQuery(query))
-    			conditions += query.column + query.operator + query.value;
+    		if (validateQuery(query)) {
+    			if (first) {
+    				conditions += query.column + query.operator + query.value;
+    				first = false;
+    			}
+    			else{
+    				conditions += " And " + query.column + query.operator + query.value;
+    			}
+    		}
     	}
     	return conditions;
     }

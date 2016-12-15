@@ -1,0 +1,27 @@
+@(resultList: List[String])
+
+@main("Results") { } {
+   <div class = "table-responsive">
+   <table class = "table">
+      <caption>Company List</caption>
+      
+      <thead>
+         <tr>
+            <th>Company</th>
+            <th>Compare</th>
+         </tr>
+      </thead>
+      <form method="post" action="@routes.Application.setupCompare()" id="searchform">
+	      <tbody>
+	       @for( ticker <- resultList) {
+	         <tr>
+	            <td><a href="@routes.Application.viewCompany(ticker)">@ticker</a></td>
+	            <td><input type="checkbox" name= "@ticker" value="@ticker"/></td>
+	         </tr>
+	        }  
+	      </tbody>
+	      <td align="right"><input type="submit" form="searchform" value="Compare Companies" /></td>	
+      </form>
+      
+   </table>
+}
