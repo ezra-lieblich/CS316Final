@@ -63,7 +63,7 @@ public class Application extends Controller {
     }
     
     public static Result interpretQuery() throws SQLException{
-    	//Form.form().bindFromRequest().data());
+    	Form.form().bindFromRequest().data();
     	
     	
     	
