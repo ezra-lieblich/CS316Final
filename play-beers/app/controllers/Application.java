@@ -63,13 +63,16 @@ public class Application extends Controller {
     }
     
     public static Result interpretQuery() throws SQLException{
+    	//Form.form().bindFromRequest().data());
+    	
+    	
+    	
     	
     	return ok(error.render("Bad Request"));
     }
     
     public static Result viewSearch() throws SQLException {
         List<String> testList = CompanyDB.getColumnNames();
-        testList.add("hello");
     	return ok(search.render(testList));
     }
 
